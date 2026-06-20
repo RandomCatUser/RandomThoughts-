@@ -1,143 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Thoughts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&display=swap');
         
         body { font-family: 'Inter', sans-serif; background-color: #f7f5ef; color: #1a1a1a; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         
-        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .tracking-editorial { letter-spacing: 0.02em; }
+        .card-shadow { box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+        .tracking-editorial { letter-spacing: 0.01em; }
     </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-4 md:p-12 antialiased">
 
     <!-- Header -->
-    <nav class="max-w-5xl mx-auto flex justify-between items-center py-6 mb-10 border-b border-stone-200/70">
-        <h1 class="text-2xl md:text-3xl font-bold italic tracking-tighter">Random Thoughts</h1>
+    <nav class="max-w-6xl mx-auto flex justify-between items-center py-6 mb-16 border-b border-stone-200/70">
+        <h1 class="text-xl md:text-2xl font-bold italic tracking-tighter">Random Thoughts</h1>
         <div class="flex gap-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-stone-500">
-            <a href="#" class="hover:text-black transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2 rounded">Home</a>
+            <a href="#" class="hover:text-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2 rounded px-1">Home</a>
+            <a href="archive.html" class="hover:text-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2 rounded px-1">Archive</a>
+            <a href="#" class="hover:text-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2 rounded px-1">About</a>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto">
+    <main class="max-w-6xl mx-auto">
         <!-- Hero Section -->
-        <header class="text-center mb-16">
-            <h2 class="text-5xl md:text-7xl font-bold mb-4 tracking-tight leading-[0.95]">Random<br> <span class="text-[#5a6a3b] italic">Thoughts</span></h2>
-            <p class="text-[15px] md:text-lg text-stone-600 font-light tracking-editorial">A collection of random thoughts worth sharing.</p>
+        <header class="text-center mb-20">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#5a6a3b] mb-6">Issue #04 — 2026</p>
+            <h2 class="text-6xl md:text-8xl font-extrabold mb-8 tracking-tight leading-[0.9]">Random<br><span class="text-[#5a6a3b] italic font-normal">Thoughts</span></h2>
+            <div class="w-12 h-px bg-stone-300 mx-auto mb-8"></div>
+            <p class="text-base md:text-lg text-stone-500 font-light tracking-editorial max-w-xl mx-auto leading-relaxed">A personal collection of essays, observations, and digital explorations worth sharing.</p>
         </header>
 
-        <!-- Digest Items -->
-        <div class="space-y-6">
-            
-            <!-- TEMPLATE: COPY THIS FOR NEW ENTRIES --> 
+        <!-- Featured Post -->
+        <div class="mb-20">
+            <article class="bg-white p-4 md:p-8 rounded-3xl card-shadow flex flex-col md:flex-row gap-6 md:gap-12 border border-stone-100 transition hover:shadow-xl hover:border-stone-200 group">
+                <div class="w-full md:w-1/2 h-64 md:h-96 bg-stone-100 rounded-2xl overflow-hidden shrink-0">
+                    <img src="./posts/assets/china.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Chinese apps are better kinda">
+                </div>
+                <div class="flex flex-col justify-center pr-2 md:pr-6 py-2">
+                    <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#5a6a3b] mb-4">Featured</span>
+                    <h3 class="text-3xl md:text-5xl font-extrabold mb-5 tracking-tight leading-[1.05]">Chinese apps are better kinda,</h3>
+                    <p class="text-base md:text-lg text-stone-500 leading-relaxed tracking-editorial mb-8">Exploring a different digital world which people who live in china uses every day, by having a momment.</p>
+                    <div class="flex items-center gap-8">
+                        <a href="posts/tryingchinese.html" class="bg-black text-white px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2 self-start">Read Now</a>
+                        <span class="font-medium text-sm text-stone-400 tabular-nums">06/19/2026</span>
+                    </div>
+                </div>
+            </article>
+        </div>
 
-            <article class="bg-white p-6 rounded-2xl card-shadow flex flex-col md:flex-row gap-6 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-40 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="./posts/assets/china.jpg" class="w-full h-full object-cover" alt="Chinese apps are better kinda">
+        <!-- Section Divider -->
+        <div class="flex items-center gap-6 mb-10">
+            <h3 class="text-xl font-bold tracking-tight">Latest Articles</h3>
+            <div class="flex-grow h-px bg-stone-200"></div>
+        </div>
+
+        <!-- Digest Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+            
+            <!-- Article 2 -->
+            <article class="bg-white rounded-3xl card-shadow flex flex-col border border-stone-100 transition hover:shadow-xl hover:border-stone-200 overflow-hidden group">
+                <div class="w-full h-64 bg-stone-100 overflow-hidden shrink-0">
+                    <img src="https://i.redd.it/my-arch-linux-hyprland-v0-ajth8fjmorfc1.png?width=1920&format=png&auto=webp&s=8239e0a95e448a693a240f6929c1d2aa936ee1d9" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="It’s Just Code: The Rapid Growth of Linux">
                 </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-tight">Chinese apps are better kinda,</h3>
-                        <p class="text-[14px] text-stone-600 leading-relaxed tracking-editorial">Exploring a different digital world which people who live in china uses every day, by having a momment.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-6">
-                        <a href="posts/tryingchinese.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 tabular-nums self-center">06/19/2026</span>
-                    </div>
-                </div>
-            </article>
-           
-            <article class="bg-white p-6 rounded-2xl card-shadow flex flex-col md:flex-row gap-6 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-40 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="https://i.redd.it/my-arch-linux-hyprland-v0-ajth8fjmorfc1.png?width=1920&format=png&auto=webp&s=8239e0a95e448a693a240f6929c1d2aa936ee1d9" class="w-full h-full object-cover" alt="It’s Just Code: The Rapid Growth of Linux">
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-tight">It’s Just Code: The Rapid Growth of Linux</h3>
-                        <p class="text-[14px] text-stone-600 leading-relaxed tracking-editorial">From niche hobbyist playground to the engine of the modern internet, here is why Linux is having a moment.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-6">
-                        <a href="posts/Itsjustcode.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 tabular-nums self-center">06/18/2026</span>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h3 class="text-2xl md:text-[28px] font-extrabold mb-3 tracking-tight leading-tight">It’s Just Code: The Rapid Growth of Linux</h3>
+                    <p class="text-[14px] text-stone-500 leading-relaxed tracking-editorial flex-grow mb-8">From niche hobbyist playground to the engine of the modern internet, here is why Linux is having a moment.</p>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
+                        <a href="posts/Itsjustcode.html" class="bg-black text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
+                        <span class="font-medium text-xs text-stone-400 tabular-nums">06/18/2026</span>
                     </div>
                 </div>
             </article>
             
-            <article class="bg-white p-8 rounded-2xl card-shadow flex flex-col md:flex-row gap-8 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-48 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="posts/assets/yoeshi.png" class="w-full h-full object-cover" alt="Yoeshi OS">
+            <!-- Article 3 -->
+            <article class="bg-white rounded-3xl card-shadow flex flex-col border border-stone-100 transition hover:shadow-xl hover:border-stone-200 overflow-hidden group">
+                <div class="w-full h-64 bg-stone-100 overflow-hidden shrink-0">
+                    <img src="posts/assets/yoeshi.png" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Yoeshi OS">
                 </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-3 tracking-tight">Yoeshi OS - Reimagining the Web as an Operating System</h3>
-                        <p class="text-[15px] text-stone-600 leading-relaxed tracking-editorial">Turning browser tabs into an advanture.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-8">
-                        <a href="posts/yoeshi.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 tabular-nums self-center">06/18/2026</span>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h3 class="text-2xl md:text-[28px] font-extrabold mb-3 tracking-tight leading-tight">Yoeshi OS - Reimagining the Web as an OS</h3>
+                    <p class="text-[14px] text-stone-500 leading-relaxed tracking-editorial flex-grow mb-8">Turning browser tabs into an advanture.</p>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
+                        <a href="posts/yoeshi.html" class="bg-black text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
+                        <span class="font-medium text-xs text-stone-400 tabular-nums">06/18/2026</span>
                     </div>
                 </div>
             </article>
              
-            <article class="bg-white p-6 rounded-2xl card-shadow flex flex-col md:flex-row gap-6 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-40 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="posts/assets/post3.jpg" class="w-full h-full object-cover" alt="The Mental Health Reality of Students in Sri Lanka">
+            <!-- Article 4 -->
+            <article class="bg-white rounded-3xl card-shadow flex flex-col border border-stone-100 transition hover:shadow-xl hover:border-stone-200 overflow-hidden group">
+                <div class="w-full h-64 bg-stone-100 overflow-hidden shrink-0">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKSRmnnYVc_Ge3WhO7SVa4KpfdWwDzz84QYs7Rb2BtcA&s=10" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="The Mental Health Reality of Students in Sri Lanka">
                 </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-tight">The Mental Health Reality of Students in Sri Lanka</h3>
-                        <p class="text-[14px] text-stone-600 leading-relaxed tracking-editorial">Understanding the emotional challenges faced by students in Sri Lanka and why mental health conversations matter more than ever.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-6">
-                        <a href="posts/mentalhealthofastudent.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 whitespace-nowrap tabular-nums self-center">05/27/2026</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="bg-white p-6 rounded-2xl card-shadow flex flex-col md:flex-row gap-6 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-40 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="posts/assets/post1.jpg" class="w-full h-full object-cover" alt="I might be a cat">
-                </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-tight">I might be a cat</h3>
-                        <p class="text-[14px] text-stone-600 leading-relaxed tracking-editorial">Why cats feel deeply relatable to me and make me feel warmer and my perspective about cats and how they are deeply related to me.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-6">
-                        <a href="posts/MeowKitties.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 tabular-nums self-center">05/25/2026</span>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h3 class="text-2xl md:text-[28px] font-extrabold mb-3 tracking-tight leading-tight">The Mental Health Reality of Students in Sri Lanka</h3>
+                    <p class="text-[14px] text-stone-500 leading-relaxed tracking-editorial flex-grow mb-8">Understanding the emotional challenges faced by students in Sri Lanka and why mental health conversations matter more than ever.</p>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
+                        <a href="posts/mentalhealthofastudent.html" class="bg-black text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
+                        <span class="font-medium text-xs text-stone-400 tabular-nums">05/27/2026</span>
                     </div>
                 </div>
             </article>
 
-            <!-- Example Article 1 -->
-            <article class="bg-white p-6 rounded-2xl card-shadow flex flex-col md:flex-row gap-6 border border-stone-100 transition hover:shadow-lg hover:border-stone-200">
-                <div class="w-full md:w-1/3 h-40 bg-stone-100 rounded-xl overflow-hidden shrink-0">
-                    <img src="posts/assets/post2.avif" class="w-full h-full object-cover" alt="Why Sri Lankan education system feels broken">
+            <!-- Article 5 -->
+            <article class="bg-white rounded-3xl card-shadow flex flex-col border border-stone-100 transition hover:shadow-xl hover:border-stone-200 overflow-hidden group">
+                <div class="w-full h-64 bg-stone-100 overflow-hidden shrink-0">
+                    <img src="posts/assets/post1.jpg" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="I might be a cat">
                 </div>
-                <div class="flex flex-col justify-between py-1">
-                    <div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 tracking-tight">Why Sri Lankan education system feels broken</h3>
-                        <p class="text-[14px] text-stone-600 leading-relaxed tracking-editorial">Exploring the challenges and shortcomings of the Sri Lankan education system and its impact on students.</p>
-                    </div>
-                    <div class="flex items-center justify-between mt-6">
-                        <a href="posts/WhySrilankanEducationSystemSucks.html" class="bg-black text-white px-7 py-2 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
-                        <span class="font-semibold text-sm leading-none inline-block align-middle text-stone-400 tabular-nums self-center">05/25/2026</span>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h3 class="text-2xl md:text-[28px] font-extrabold mb-3 tracking-tight leading-tight">I might be a cat</h3>
+                    <p class="text-[14px] text-stone-500 leading-relaxed tracking-editorial flex-grow mb-8">Why cats feel deeply relatable to me and make me feel warmer and my perspective about cats and how they are deeply related to me.</p>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
+                        <a href="posts/MeowKitties.html" class="bg-black text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
+                        <span class="font-medium text-xs text-stone-400 tabular-nums">05/25/2026</span>
                     </div>
                 </div>
             </article>
+
+            <!-- Article 6 -->
+            <article class="bg-white rounded-3xl card-shadow flex flex-col border border-stone-100 transition hover:shadow-xl hover:border-stone-200 overflow-hidden group">
+                <div class="w-full h-64 bg-stone-100 overflow-hidden shrink-0">
+                    <img src="posts/assets/post2.avif" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Why Sri Lankan education system feels broken">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h3 class="text-2xl md:text-[28px] font-extrabold mb-3 tracking-tight leading-tight">Why Sri Lankan education system feels broken</h3>
+                    <p class="text-[14px] text-stone-500 leading-relaxed tracking-editorial flex-grow mb-8">Exploring the challenges and shortcomings of the Sri Lankan education system and its impact on students.</p>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-stone-100">
+                        <a href="posts/WhySrilankanEducationSystemSucks.html" class="bg-black text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[#5a6a3b] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5a6a3b] focus-visible:ring-offset-2">Read Now</a>
+                        <span class="font-medium text-xs text-stone-400 tabular-nums">05/25/2026</span>
+                    </div>
+                </div>
+            </article>
+
         </div>
     </main>
 
-    <footer class="text-center mt-32 py-12 text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">
-        끝에 도달하셨습니다.
+    <footer class="max-w-6xl mx-auto mt-32 py-12 border-t border-stone-200/70 text-center">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-stone-400">끝에 도달하셨습니다.</p>
+        <p class="mt-4 text-xs text-stone-400 font-light tracking-editorial">© 2026 Random Thoughts. Crafted with care.</p>
     </footer>
 </body>
 </html>
