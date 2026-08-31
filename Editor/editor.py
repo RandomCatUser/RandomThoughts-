@@ -1,17 +1,3 @@
-#!/usr/bin/env python3
-"""
-Editorial Blog Builder
------------------------
-A PyQt5 desktop app for building an editorial-style blog post by dragging
-blocks from a palette onto a live HTML canvas (using QWebEngineView).
-Blocks are edited in place directly within the live website preview.
-
-Run:
-    python3 blog_builder.py
-
-Requires:
-    pip install PyQt5 PyQtWebEngine
-"""
 
 import sys
 import os
@@ -548,9 +534,9 @@ class EditorBackend(QObject):
                 self.app._render_canvas()
 
 
-# ---------------------------------------------------------------------------
+
 # Web Engine View acting as the live canvas
-# ---------------------------------------------------------------------------
+
 class CanvasWebEngineView(QWebEngineView):
     def __init__(self, add_block_callback, parent=None):
         super().__init__(parent)
