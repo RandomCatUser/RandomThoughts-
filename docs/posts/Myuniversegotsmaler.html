@@ -5,32 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends Come and Go | Random Thoughts Digest</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; background-color: #f7f5ef; color: #1a1a1a; cursor: default; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        
-        a, button, [role="button"] { cursor: pointer; }
 
-        .tracking-editorial { letter-spacing: 0.02em; }
-        .article-body p { margin-bottom: 1.5rem; line-height: 1.8; color: #374151; }
+    <!-- Font Awesome (player icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsmediatags (metadata parsing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="posts.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body class="p-4 md:p-12">
 
-    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b border-stone-200">
-        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter">← Home</a>
-        <div class="flex gap-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-            <span class="text-black">July 19, 2026</span>
+    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b rt-nav">
+        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter rt-nav-home">&#8592; Home</a>
+        <div class="flex items-center gap-6 text-[11px] font-semibold uppercase tracking-[0.2em]">
+            <span class="rt-nav-date-strong">July 19, 2026</span>
+
+            <label class="switch scale-90 origin-center" title="Toggle dark / light">
+                <input id="input" type="checkbox" checked="checked" />
+                <div class="slider round">
+                    <div class="sun-moon">
+<svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+</div>
+<div class="stars">
+<svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+</div>
+                </div>
+            </label>
+
+            <div class="rt-settings">
+                <button type="button" id="sc-settings-toggle" class="rt-settings-toggle rt-focus" title="Settings" aria-label="Settings">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <div class="rt-settings-dropdown">
+                    <div class="rt-settings-head"><i class="fa-solid fa-sliders"></i> Settings</div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-microphone"></i> Voice Tracks</span>
+                        <label class="rt-toggle">
+                            <input id="voice-toggle-input" type="checkbox" />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-music"></i> Show Player</span>
+                        <label class="rt-toggle">
+                            <input id="player-toggle-input" type="checkbox" checked />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main class="max-w-3xl mx-auto article-body">
         <header class="mb-12">
-            <span class="text-stone-500 text-xs uppercase tracking-[0.2em] font-bold">Personal</span>
-            <h1 class="text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">Friends Come and Go</h1>
-            <p class="text-xl text-stone-600 font-light italic">Reflecting on the quiet heartbreaks and the lessons learned from friendships that didn't last.</p>
+            <span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">Personal</span>
+            <h1 class="rt-body-title text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">Friends Come and Go</h1>
+            <p class="text-xl rt-body-sub font-light italic">Reflecting on the quiet heartbreaks and the lessons learned from friendships that didn't last.</p>
         </header>
 
         <img src="./assets/post7.jpeg" alt="Empty park bench" class="w-full aspect-video object-cover rounded-2xl mb-12">
@@ -39,42 +90,93 @@
 
         <p>As I've grown older, I've realized that not every friendship is meant to last forever. Some people stay for years, while others leave without warning. Some friendships end peacefully, while others leave behind heartbreak that takes a long time to heal. Recently, I experienced the loss of three friendships that meant the world to me. Each one ended differently, but each one left a mark on my heart.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 1 — The Friendship I Thought Would Last Forever</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 1 — The Friendship I Thought Would Last Forever</h2>
         <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1400&auto=format&fit=crop" alt="Old photographs" class="w-full aspect-video object-cover rounded-2xl mb-8">
         <p>Friend 1 was someone who made school feel like home. We spent countless days laughing at the most random things, doing weird and unforgettable stuff that probably made everyone else wonder what was wrong with us. Those moments were simple, but they became some of the happiest memories of my school life. I honestly believed we would stay friends long after graduation.</p>
         <p>Sadly, everything changed because of a misunderstanding. Instead of talking openly and clearing things up, silence slowly replaced our conversations. The friendship faded away, not because we hated each other, but because one misunderstanding became bigger than everything we had built together. That hurts the most because I know things could have been different if we had simply spoken honestly.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 2 — The Friendship That Broke Me</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 2 — The Friendship That Broke Me</h2>
         <img src="https://live.staticflickr.com/5484/12254311683_d4cc503138_z.jpg?q=80&w=1400&auto=format&fit=crop" alt="Abstract emotion" class="w-full aspect-video object-cover rounded-2xl mb-8">
         <p>Friend 2 was someone I trusted with my whole heart. I believed they were someone I could rely on no matter what happened. I shared my thoughts, trusted their words, and genuinely believed our friendship was built on honesty.</p>
         <p>Over time, however, I began to realize that my trust wasn't being respected. I felt manipulated, confused, and emotionally drained. The more I looked back, the more I noticed moments that I had ignored because I wanted the friendship to survive. I kept hoping things would change, but they never did.</p>
         <p>Being unfriended wasn't the hardest part. The hardest part was realizing that someone I cared about so deeply had broken my trust. That experience didn't just hurt me—it broke a part of who I was. It made me question people, question friendships, and question whether I was simply too trusting.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 3 — Another Goodbye I Never Expected</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Friend 3 — Another Goodbye I Never Expected</h2>
         <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?q=80&w=1400&auto=format&fit=crop" alt="Path parting ways" class="w-full aspect-video object-cover rounded-2xl mb-8">
         <p>After everything that had already happened, losing Friend 3 became another painful chapter. They were someone I valued and someone I believed would remain in my life. When that friendship ended, it felt like losing another piece of myself.</p>
         <p>Sometimes friendships don't end with dramatic arguments or obvious reasons. Sometimes people simply walk away, leaving behind unanswered questions and memories that are difficult to let go of. While I still appreciate the good times we shared, accepting that the friendship had ended was far more difficult than I expected.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Lessons and Moving Forward</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Lessons and Moving Forward</h2>
         <p>Losing friends can feel like grieving someone who is still alive. You remember the happy moments, wonder what went wrong, and sometimes replay conversations in your mind wishing you could change the ending. It's one of the quietest kinds of heartbreak because most people don't realize how deeply it affects you.</p>
 
-        <blockquote class="border-l-4 border-[#5a6a3b] pl-6 py-2 my-8 text-2xl font-serif italic text-stone-700">
+        <blockquote class="border-l-4 rt-quote pl-6 py-2 my-8 text-2xl font-serif italic">
             “No matter how much you care about someone, you cannot force them to stay.”
         </blockquote>
 
         <p>I won't pretend that everything is okay. There are still days when I think about those friendships and wonder what could have been. But life doesn't stop because people leave. The memories will always remain, and so will the lessons. I'll carry the good moments with gratitude instead of regret, and I'll continue believing that one day I'll meet people who choose to stay, communicate, and value friendship just as much as I do.</p>
 
-        <div class="mt-12 text-center text-stone-800 font-serif italic space-y-4">
+        <div class="mt-12 text-center rt-ending font-serif italic space-y-4">
             <p class="text-2xl">Friends come and go.</p>
-            <p class="text-xl text-stone-500">Some become lifelong companions.</p>
-            <p class="text-xl text-stone-500">Some become painful lessons.</p>
-            <p class="text-xl text-stone-500">And some become memories that, no matter how much they hurt, will always have a special place in our hearts.</p>
+            <p class="text-xl rt-ending-muted">Some become lifelong companions.</p>
+            <p class="text-xl rt-ending-muted">Some become painful lessons.</p>
+            <p class="text-xl rt-ending-muted">And some become memories that, no matter how much they hurt, will always have a special place in our hearts.</p>
         </div>
 
-        <footer class="mt-20 pt-10 border-t border-stone-200 text-stone-500 text-sm">
+        <footer class="mt-20 pt-10 border-t rt-foot text-sm">
             <p>훌륭합니다! 기사를 끝까지 읽으셨습니다.</p>
         </footer>
     </main>
 
+    <div id="sc-dynamic-island" class="sc-dynamic-island collapsed">
+        <div class="sc-view-wrapper">
+            <div class="sc-compact-layout">
+                <div id="sc-compact-art" class="sc-compact-art">&#9834;</div>
+                <div id="sc-compact-eq" class="sc-compact-eq">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="sc-expanded-layout">
+                <div class="sc-meta-header">
+                    <div id="sc-expanded-art" class="sc-expanded-art">&#9834;</div>
+                    <div class="sc-track-details">
+                        <div class="sc-title-group">
+                            <h4 id="sc-expanded-title" class="sc-track-title">Loading...</h4>
+                            <canvas id="sc-wave-canvas" class="sc-wave-canvas" width="120" height="36"></canvas>
+                        </div>
+                        <p id="sc-expanded-artist" class="sc-track-artist">Parsing Tags...</p>
+                    </div>
+                </div>
+
+                <div class="sc-timeline-group">
+                    <div id="sc-timeline-bar" class="sc-timeline-bar-bg">
+                        <div id="sc-timeline-fill" class="sc-timeline-fill"></div>
+                        <div id="sc-timeline-handle" class="sc-timeline-handle"></div>
+                    </div>
+                    <div class="sc-time-labels">
+                        <span id="sc-time-curr">0:00</span>
+                        <span id="sc-time-rem">-0:00</span>
+                    </div>
+                </div>
+
+                <div class="sc-controls-row">
+                    <div class="sc-branding">
+                        <i class="fa-solid fa-compact-disc"></i>
+                        <span>MUSIC LIBRARY</span>
+                    </div>
+                    <div class="sc-playback-group">
+                        <button id="sc-btn-prev" class="sc-btn" title="Previous Track"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="sc-btn-play" class="sc-btn sc-btn-play" title="Play/Pause"><i id="sc-play-icon" class="fa-solid fa-play" style="margin-left: 2px;"></i></button>
+                        <button id="sc-btn-next" class="sc-btn" title="Next Track"><i class="fa-solid fa-forward-step"></i></button>
+                        <button id="sc-btn-repeat" class="sc-btn sc-btn-repeat" title="Toggle Repeat"><i class="fa-solid fa-repeat"></i></button>
+                    </div>
+                    <button id="sc-btn-lock" class="sc-btn sc-btn-lock" title="Keep Panel Expanded"><i class="fa-solid fa-thumbtack"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/common.js"></script>
+    <script src="posts.js"></script>
 </body>
 </html>

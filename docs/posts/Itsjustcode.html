@@ -5,32 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>It's Just Code | Random Thoughts Digest</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; background-color: #f7f5ef; color: #1a1a1a; cursor: default; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        
-        a, button, [role="button"] { cursor: pointer; }
 
-        .tracking-editorial { letter-spacing: 0.02em; }
-        .article-body p { margin-bottom: 1.5rem; line-height: 1.8; color: #374151; }
+    <!-- Font Awesome (player icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsmediatags (metadata parsing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="posts.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body class="p-4 md:p-12">
 
-    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b border-stone-200">
-        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter">← Home</a>
-        <div class="flex gap-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-            <span class="text-black">June 18, 2026</span>
+    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b rt-nav">
+        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter rt-nav-home">&#8592; Home</a>
+        <div class="flex items-center gap-6 text-[11px] font-semibold uppercase tracking-[0.2em]">
+            <span class="rt-nav-date-strong">June 18, 2026</span>
+
+            <label class="switch scale-90 origin-center" title="Toggle dark / light">
+                <input id="input" type="checkbox" checked="checked" />
+                <div class="slider round">
+                    <div class="sun-moon">
+<svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+<svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+</div>
+<div class="stars">
+<svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+<svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+</div>
+                </div>
+            </label>
+
+            <div class="rt-settings">
+                <button type="button" id="sc-settings-toggle" class="rt-settings-toggle rt-focus" title="Settings" aria-label="Settings">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <div class="rt-settings-dropdown">
+                    <div class="rt-settings-head"><i class="fa-solid fa-sliders"></i> Settings</div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-microphone"></i> Voice Tracks</span>
+                        <label class="rt-toggle">
+                            <input id="voice-toggle-input" type="checkbox" />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-music"></i> Show Player</span>
+                        <label class="rt-toggle">
+                            <input id="player-toggle-input" type="checkbox" checked />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main class="max-w-3xl mx-auto article-body">
         <header class="mb-12">
-            <span class="text-stone-500 text-xs uppercase tracking-[0.2em] font-bold">Tech & Projects</span>
-            <h1 class="text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">It’s Just Code</h1>
-            <p class="text-xl text-stone-600 font-light italic">From niche hobbyist playground to the engine of the modern internet, here is why Linux is having a moment.</p>
+            <span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">Tech & Projects</span>
+            <h1 class="rt-body-title text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">It’s Just Code</h1>
+            <p class="text-xl rt-body-sub font-light italic">From niche hobbyist playground to the engine of the modern internet, here is why Linux is having a moment.</p>
         </header>
 
         <img src="https://static0.xdaimages.com/wordpress/wp-content/uploads/wm/2025/02/hyprland-screenshot-on-pc-hero.jpg?q=49&auto=format&fit=crop" alt="Linux terminal workspace" class="w-full aspect-video object-cover rounded-2xl mb-12">
@@ -39,32 +90,32 @@
         
         <p>Things move fast here—like, blink and you’ll miss the next update. All kinds of people are constantly building, fixing, and improving things. You’ve got folks messing with the kernel, others working on apps, or just some random script to solve a tiny problem. Fresh features and bug fixes drop all the time. There’s no single company calling the shots. Instead, Linux is this global mash-up: volunteers, companies, and organizations all pitching in. And you can really feel the difference.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">The Linux Boom</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">The Linux Boom</h2>
         <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1400&auto=format&fit=crop" alt="Coding on monitors" class="w-full aspect-video object-cover rounded-2xl mb-8">
         <p>The community? It’s gone into overdrive. With places like GitHub, it’s dead simple to jump into open-source projects. Stuck? Forums, Discord, Reddit, you name it—there’s help and guides everywhere.</p>
         <p>If you’re into tech at all—software, AI, hacking, anything web-related—you’ll bump into Linux. Most massive servers and datacenters run it, and it owns the supercomputer world. Why? Reliability, sure, but also flexibility. You can shape Linux into exactly what you want. People are learning it these days because it just flat-out works.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Why Arch Linux Gets All the Hype</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Why Arch Linux Gets All the Hype</h2>
         <p>With so many Linux flavors out there, you hear about Arch Linux constantly. It’s not for everyone—and that’s kind of the appeal. If you love tinkering and want every dial and knob under your control, Arch is the dream.</p>
         <p>Arch keeps things simple. Not easy, just simple—there’s a difference. Arch tries to stay out of your way so you can set everything up exactly how you want.</p>
         
-        <blockquote class="border-l-4 border-[#5a6a3b] pl-6 py-2 my-8 text-2xl font-serif italic text-stone-700">
+        <blockquote class="border-l-4 rt-quote pl-6 py-2 my-8 text-2xl font-serif italic">
             “No more waiting around for huge updates. Arch runs on a rolling release system, so stuff lands when it’s ready.”
         </blockquote>
 
         <h3 class="text-2xl font-bold mt-8 mb-4">Rolling Release Model</h3>
         <p>You stay on the edge with fresh kernels, dev tools, and desktop environments delivered as soon as they are ready. If you like living on the latest and greatest, Arch makes it easy. The legendary Arch Wiki and the AUR (Arch User Repository) make the platform feel like a superpower for anyone who wants to truly understand their machine.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Hyprland: Making Linux Desktops Actually Fun</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Hyprland: Making Linux Desktops Actually Fun</h2>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvMU_6ucV7sGTJP2o1mJLL0sVqFCtYTU54fqNyCzMxYKium5sj2_pFzV8&s=10&auto=format&fit=crop" alt="Abstract desktop setup" class="w-full aspect-video object-cover rounded-2xl mb-8">
         <p>Now, let’s get into Hyprland. This desktop project has serious buzz. Hyprland is a modern Wayland compositor. Translation: It handles how windows look, move, and feel. You get smart tiling, fluid animations, and a desktop that honestly looks amazing—sometimes even better than Windows or macOS.</p>
         <p>People are excited about the smooth, eye-catching animations and the deep, endless customization. Hop on social media and check out Linux groups—everyone’s sharing their Hyprland setups, and no two look alike. It’s a perfect example of making your computer really feel like yours.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Niri: Trying Something New</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Niri: Trying Something New</h2>
         <p>Then there’s Niri—a fresh take in the Wayland scene. Hyprland is all about tiling and style, but Niri does things differently. Windows aren’t stuck in fixed spots; you get a scrolling workspace, almost like an endless desktop you can just keep rolling through. It’s new, it’s smooth, and it shakes up how you think about window management.</p>
         <p>Niri isn’t huge yet, but it’s got that classic Linux spirit—always experimenting, always moving forward. Proof that the desktop still isn’t done changing.</p>
 
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">Why More People Are Switching</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Why More People Are Switching</h2>
         <ul class="list-disc pl-6 space-y-4 mb-8">
             <li><strong>Freedom and Control:</strong> Everything’s in your hands.</li>
             <li><strong>Performance:</strong> Linux is lean and fast, even on old hardware.</li>
@@ -73,10 +124,61 @@
             <li><strong>Community:</strong> A helpful crowd, always happy to lend a hand.</li>
         </ul>
 
-        <footer class="mt-20 pt-10 border-t border-stone-200 text-stone-500 text-sm">
+        <footer class="mt-20 pt-10 border-t rt-foot text-sm">
             <p>훌륭합니다! 기사를 끝까지 읽으셨습니다.</p>
         </footer>
     </main>
 
+    <div id="sc-dynamic-island" class="sc-dynamic-island collapsed">
+        <div class="sc-view-wrapper">
+            <div class="sc-compact-layout">
+                <div id="sc-compact-art" class="sc-compact-art">&#9834;</div>
+                <div id="sc-compact-eq" class="sc-compact-eq">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="sc-expanded-layout">
+                <div class="sc-meta-header">
+                    <div id="sc-expanded-art" class="sc-expanded-art">&#9834;</div>
+                    <div class="sc-track-details">
+                        <div class="sc-title-group">
+                            <h4 id="sc-expanded-title" class="sc-track-title">Loading...</h4>
+                            <canvas id="sc-wave-canvas" class="sc-wave-canvas" width="120" height="36"></canvas>
+                        </div>
+                        <p id="sc-expanded-artist" class="sc-track-artist">Parsing Tags...</p>
+                    </div>
+                </div>
+
+                <div class="sc-timeline-group">
+                    <div id="sc-timeline-bar" class="sc-timeline-bar-bg">
+                        <div id="sc-timeline-fill" class="sc-timeline-fill"></div>
+                        <div id="sc-timeline-handle" class="sc-timeline-handle"></div>
+                    </div>
+                    <div class="sc-time-labels">
+                        <span id="sc-time-curr">0:00</span>
+                        <span id="sc-time-rem">-0:00</span>
+                    </div>
+                </div>
+
+                <div class="sc-controls-row">
+                    <div class="sc-branding">
+                        <i class="fa-solid fa-compact-disc"></i>
+                        <span>MUSIC LIBRARY</span>
+                    </div>
+                    <div class="sc-playback-group">
+                        <button id="sc-btn-prev" class="sc-btn" title="Previous Track"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="sc-btn-play" class="sc-btn sc-btn-play" title="Play/Pause"><i id="sc-play-icon" class="fa-solid fa-play" style="margin-left: 2px;"></i></button>
+                        <button id="sc-btn-next" class="sc-btn" title="Next Track"><i class="fa-solid fa-forward-step"></i></button>
+                        <button id="sc-btn-repeat" class="sc-btn sc-btn-repeat" title="Toggle Repeat"><i class="fa-solid fa-repeat"></i></button>
+                    </div>
+                    <button id="sc-btn-lock" class="sc-btn sc-btn-lock" title="Keep Panel Expanded"><i class="fa-solid fa-thumbtack"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/common.js"></script>
+    <script src="posts.js"></script>
 </body>
 </html>

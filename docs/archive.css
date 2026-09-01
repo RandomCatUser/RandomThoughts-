@@ -1,0 +1,53 @@
+/* ============================================================
+   Random Thoughts — Archive styles (archive.html)
+   Theme-aware; uses CSS variables defined in common.css.
+   ============================================================ */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--rt-bg);
+    color: var(--rt-text);
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+.tracking-editorial { letter-spacing: 0.02em; }
+
+/* ---------- Navbar ---------- */
+.rt-nav { border-bottom-color: var(--rt-line); }
+.rt-nav-brand { color: var(--rt-text); }
+.rt-nav-brand:hover { color: var(--rt-accent); }
+.rt-nav-link { color: var(--rt-muted); }
+.rt-nav-link:hover,
+.rt-nav-link.active { color: var(--rt-accent); }
+.rt-nav-link.active { color: var(--rt-text); }
+
+/* ---------- Hero ---------- */
+.rt-arch-label { color: var(--rt-accent); }
+.rt-arch-accent { color: var(--rt-accent); }
+.rt-arch-sub { color: var(--rt-muted); }
+.rt-arch-rule { background-color: var(--rt-faint); }
+.rt-year { color: var(--rt-faint); }
+.rt-year-line { background-color: var(--rt-line); }
+
+/* ---------- Entries ---------- */
+.rt-entry { border-bottom-color: var(--rt-line); }
+.rt-entry:hover { background-color: var(--rt-hover-bg); }
+.rt-entry-date { color: var(--rt-muted); }
+.rt-entry-title { color: var(--rt-text); }
+.rt-entry:hover .rt-entry-title { color: var(--rt-accent); }
+.rt-entry-desc { color: var(--rt-muted); }
+.rt-entry-read { color: var(--rt-faint); }
+.rt-entry:hover .rt-entry-read { color: var(--rt-text); }
+
+/* ---------- Footer ---------- */
+.rt-footer { border-top-color: var(--rt-line); }
+.rt-footer-kr { color: var(--rt-faint); }
+.rt-footer-copy { color: var(--rt-faint); }
+
+.rt-focus:focus-visible {
+    outline: 2px solid var(--rt-accent);
+    outline-offset: 2px;
+}

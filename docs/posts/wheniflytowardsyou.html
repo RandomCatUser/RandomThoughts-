@@ -8,109 +8,99 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Font Awesome (player icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsmediatags (metadata parsing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="posts.css">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f5ef;
-            color: #1a1a1a;
-            cursor: default;
-        }
-
-        h1,
-        h2,
-        h3 {
-            font-family: 'Playfair Display', serif;
-        }
-
-        a,
-        button,
-        [role="button"] {
-            cursor: pointer;
-        }
-
-        .tracking-editorial {
-            letter-spacing: 0.02em;
-        }
-
-        .article-body p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            color: #374151;
-        }
-
-        .article-image {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            border-radius: 1rem;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            display: block;
-        }
-
-        .image-credit {
-            margin-bottom: 2rem;
-            font-size: 0.7rem;
-            color: #78716c;
-            text-align: right;
-        }
-
-        ::selection {
-            background: #d8ddc7;
-            color: #1a1a1a;
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 3rem !important;
-                line-height: 1.05;
-            }
-
-            .article-body p {
-                font-size: 0.98rem;
-                line-height: 1.75;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 
 <body class="p-4 md:p-12">
 
     <!-- NAVIGATION -->
-    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b border-stone-200">
-        <a
-            href="https://randomcatuser.github.io/RandomThoughts-/"
-            class="text-xl font-bold italic tracking-tighter hover:opacity-60 transition-opacity"
-        >
+    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b rt-nav">
+        <a href="https://randomcatuser.github.io/RandomThoughts-/"
+           class="text-xl font-bold italic tracking-tighter rt-nav-home rt-focus transition-opacity">
             ← Home
         </a>
 
-        <div class="flex gap-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-            <span class="text-black">August 31, 2026</span>
+        <div class="flex items-center gap-6 text-[11px] font-semibold uppercase tracking-[0.2em]">
+            <span class="rt-nav-date-strong">August 31, 2026</span>
+
+            <!-- Theme switch (sun/moon) -->
+            <label class="switch scale-90 origin-center" title="Toggle dark / light">
+                <input id="input" type="checkbox" checked="checked" />
+                <div class="slider round">
+                    <div class="sun-moon">
+                        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                    </div>
+                    <div class="stars">
+                        <svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                    </div>
+                </div>
+            </label>
+
+            <div class="rt-settings">
+                <button type="button" id="sc-settings-toggle" class="rt-settings-toggle rt-focus" title="Settings" aria-label="Settings">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <div class="rt-settings-dropdown">
+                    <div class="rt-settings-head"><i class="fa-solid fa-sliders"></i> Settings</div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-microphone"></i> Voice Tracks</span>
+                        <label class="rt-toggle">
+                            <input id="voice-toggle-input" type="checkbox" />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-music"></i> Show Player</span>
+                        <label class="rt-toggle">
+                            <input id="player-toggle-input" type="checkbox" checked />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
 
     <!-- ARTICLE -->
-    <main class="max-w-3xl mx-auto article-body">
+    <main class="max-w-3xl mx-auto article-body rt-body">
 
         <!-- HEADER -->
         <header class="mb-12">
-            <span class="text-stone-500 text-xs uppercase tracking-[0.2em] font-bold">
+            <span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">
                 Culture & Art
             </span>
 
-            <h1 class="text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">
+            <h1 class="rt-body-title text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">
                 When I Fly Towards You
             </h1>
 
-            <p class="text-xl text-stone-600 font-light italic">
+            <p class="text-xl rt-body-sub font-light italic">
                 How <em>When I Fly Towards You</em> became more than just a
                 favorite show it became an anchor for my emotions, code, and
                 creative life.
@@ -119,7 +109,6 @@
 
 
         <!-- HERO IMAGE -->
-
         <figure>
             <img
                 class="article-image"
@@ -128,7 +117,6 @@
                 loading="eager"
                 referrerpolicy="no-referrer"
             >
-
             <figcaption class="image-credit">
                 Su Zaizai and Zhang Lurang  <em>When I Fly Towards You</em>
             </figcaption>
@@ -151,11 +139,9 @@
 
 
         <!-- STORY -->
-
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">
+        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight rt-body-title">
             The Story Behind the Show
         </h2>
-
         <p>
             For those who haven't yet fallen into it,
             <em>When I Fly Towards You</em> (当我飞奔向你) is a 2023 Chinese
@@ -191,7 +177,7 @@
             of low points throughout school when he's panicking over schoolwork
             or his own insecurities; their smooth transition from high school
             to college is executed flawlessly, with no reliance on tropes or
-            cheap, manufactured misunderstandings or toxic third act breakups 
+            cheap, manufactured misunderstandings or toxic third act breakups
             with that deeply satisfying resolution when you see them married,
             two lifelong partners who get to live the future they've always
             planned together. Even the characters at Yucai High School, or
@@ -204,11 +190,9 @@
 
 
         <!-- CODE & DESIGN -->
-
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">
+        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight rt-body-title">
             Fuel For Code and Design
         </h2>
-
 
         <!-- DIFFERENT IMAGE #2 -->
         <figure>
@@ -219,12 +203,10 @@
                 loading="lazy"
                 referrerpolicy="no-referrer"
             >
-
             <figcaption class="image-credit">
                 A classroom moment between Zaizai and Lurang
             </figcaption>
         </figure>
-
 
         <p>
             The effect that the series had on me didn't stop at passive
@@ -248,11 +230,9 @@
 
 
         <!-- BLUE -->
-
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">
+        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight rt-body-title">
             The Magic That Is Yung Kai's "Blue"
         </h2>
-
 
         <!-- DIFFERENT IMAGE #3 -->
         <figure>
@@ -263,16 +243,14 @@
                 loading="lazy"
                 referrerpolicy="no-referrer"
             >
-
             <figcaption class="image-credit">
                 Zaizai and Lurang sharing a quiet moment
             </figcaption>
         </figure>
 
-
         <p>
             While the drama's own soundtrack opening theme "When I Run To You"
-            by Lin Chenyang and closing theme "I Think I Will" by Yin Luxi 
+            by Lin Chenyang and closing theme "I Think I Will" by Yin Luxi
             carries the same soft, aching tone as the story itself, there is
             one song that has since become inseparable from the show in my
             mind: "Blue" by Yung Kai. Released in August 2024, the Canadian
@@ -292,7 +270,7 @@
 
         <!-- QUOTE -->
         <blockquote
-            class="border-l-4 border-[#5a6a3b] pl-6 py-2 my-8 text-2xl font-serif italic text-stone-700"
+            class="border-l-4 rt-quote pl-6 py-2 my-8 text-2xl font-serif italic"
         >
             "It contains in it that bittersweet, almost aching in all the
             right ways feeling of young love as well as that comforting wave
@@ -311,11 +289,9 @@
 
 
         <!-- INTERNET NOISE -->
-
-        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight">
+        <h2 class="text-4xl font-bold mt-16 mb-6 tracking-tight rt-body-title">
             When Art Meets Internet Noise
         </h2>
-
 
         <!-- DIFFERENT IMAGE #4 -->
         <figure>
@@ -326,15 +302,13 @@
                 loading="lazy"
                 referrerpolicy="no-referrer"
             >
-
             <figcaption class="image-credit">
                 The five friends of <em>When I Fly Towards You</em>
             </figcaption>
         </figure>
 
-
         <p>
-            The use of "Blue" by Yung Kai in creator led edits such as viral 
+            The use of "Blue" by Yung Kai in creator led edits such as viral
             clips featuring personalities like IShowSpeed honestly feels like a
             slap in the face. That delicate, heartbreakingly emotional song
             used for loud shouting highlights and ultra active meme edits felt
@@ -356,11 +330,65 @@
 
 
         <!-- FOOTER -->
-        <footer class="mt-20 pt-10 border-t border-stone-200 text-stone-500 text-sm">
+        <footer class="mt-20 pt-10 border-t rt-foot text-sm">
             <p>훌륭합니다! 기사를 끝까지 읽으셨습니다.</p>
         </footer>
 
     </main>
 
+    <!-- ============================================================
+         DYNAMIC ISLAND MUSIC PLAYER (shared across pages)
+         ============================================================ -->
+    <div id="sc-dynamic-island" class="sc-dynamic-island collapsed">
+        <div class="sc-view-wrapper">
+            <div class="sc-compact-layout">
+                <div id="sc-compact-art" class="sc-compact-art">&#9834;</div>
+                <div id="sc-compact-eq" class="sc-compact-eq">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="sc-expanded-layout">
+                <div class="sc-meta-header">
+                    <div id="sc-expanded-art" class="sc-expanded-art">&#9834;</div>
+                    <div class="sc-track-details">
+                        <div class="sc-title-group">
+                            <h4 id="sc-expanded-title" class="sc-track-title">Loading...</h4>
+                            <canvas id="sc-wave-canvas" class="sc-wave-canvas" width="120" height="36"></canvas>
+                        </div>
+                        <p id="sc-expanded-artist" class="sc-track-artist">Parsing Tags...</p>
+                    </div>
+                </div>
+
+                <div class="sc-timeline-group">
+                    <div id="sc-timeline-bar" class="sc-timeline-bar-bg">
+                        <div id="sc-timeline-fill" class="sc-timeline-fill"></div>
+                        <div id="sc-timeline-handle" class="sc-timeline-handle"></div>
+                    </div>
+                    <div class="sc-time-labels">
+                        <span id="sc-time-curr">0:00</span>
+                        <span id="sc-time-rem">-0:00</span>
+                    </div>
+                </div>
+
+                <div class="sc-controls-row">
+                    <div class="sc-branding">
+                        <i class="fa-solid fa-compact-disc"></i>
+                        <span>MUSIC LIBRARY</span>
+                    </div>
+                    <div class="sc-playback-group">
+                        <button id="sc-btn-prev" class="sc-btn" title="Previous Track"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="sc-btn-play" class="sc-btn sc-btn-play" title="Play/Pause"><i id="sc-play-icon" class="fa-solid fa-play" style="margin-left: 2px;"></i></button>
+                        <button id="sc-btn-next" class="sc-btn" title="Next Track"><i class="fa-solid fa-forward-step"></i></button>
+                        <button id="sc-btn-repeat" class="sc-btn sc-btn-repeat" title="Toggle Repeat"><i class="fa-solid fa-repeat"></i></button>
+                    </div>
+                    <button id="sc-btn-lock" class="sc-btn sc-btn-lock" title="Keep Panel Expanded"><i class="fa-solid fa-thumbtack"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/common.js"></script>
+    <script src="posts.js"></script>
 </body>
 </html>

@@ -5,75 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yoeshi OS: Reimagining the Web | Random Thoughts Digest</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
-        
-        body { font-family: 'Inter', sans-serif; background-color: #f7f5ef; color: #1a1a1a; cursor: default; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        
-        a, button, [role="button"] { cursor: pointer; }
 
-        .tracking-editorial { letter-spacing: 0.02em; }
-        .article-body p { margin-bottom: 1.5rem; line-height: 1.8; color: #374151; }
+    <!-- Font Awesome (player icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsmediatags (metadata parsing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="posts.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
     </style>
 </head>
 <body class="p-4 md:p-12">
 
-    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b border-stone-200">
-        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter">← Home</a>
-        <div class="flex gap-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-stone-500">
-            <span class="text-black">June 18, 2026</span>
+    <nav class="max-w-4xl mx-auto flex justify-between items-center py-8 mb-16 border-b rt-nav">
+        <a href="https://randomcatuser.github.io/RandomThoughts-/" class="text-xl font-bold italic tracking-tighter rt-nav-home">← Home</a>
+        <div class="flex items-center gap-6 text-[11px] font-semibold uppercase tracking-[0.2em]">
+            <span class="rt-nav-date-strong">June 18, 2026</span>
+
+            <!-- Theme switch (sun/moon) -->
+            <label class="switch scale-90 origin-center" title="Toggle dark / light">
+                <input id="input" type="checkbox" checked="checked" />
+                <div class="slider round">
+                    <div class="sun-moon">
+                        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>
+                    </div>
+                    <div class="stars">
+                        <svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                        <svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"></path></svg>
+                    </div>
+                </div>
+            </label>
+
+            <div class="rt-settings">
+                <button type="button" id="sc-settings-toggle" class="rt-settings-toggle rt-focus" title="Settings" aria-label="Settings">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <div class="rt-settings-dropdown">
+                    <div class="rt-settings-head"><i class="fa-solid fa-sliders"></i> Settings</div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-microphone"></i> Voice Tracks</span>
+                        <label class="rt-toggle">
+                            <input id="voice-toggle-input" type="checkbox" />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="rt-setting-row">
+                        <span class="rt-setting-label"><i class="fa-solid fa-music"></i> Show Player</span>
+                        <label class="rt-toggle">
+                            <input id="player-toggle-input" type="checkbox" checked />
+                            <span class="rt-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <main class="max-w-3xl mx-auto article-body">
+    <main class="max-w-3xl mx-auto article-body rt-body">
         <header class="mb-12">
-            <span class="text-stone-500 text-xs uppercase tracking-[0.2em] font-bold">Tech & Projects</span>
-            <h1 class="text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">Yoeshi OS: Reimagining the Web as an Operating System</h1>
-            <p class="text-xl text-stone-600 font-light italic">Turning browser tabs into an advanture.</p>
+            <span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">Tech & Projects</span>
+            <h1 class="rt-body-title text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">Yoeshi OS: Reimagining the Web as an Operating System</h1>
+            <p class="text-xl rt-body-sub font-light italic">Turning browser tabs into an advanture.</p>
         </header>
 
         <img src="https://github.com/RandomCatUser/RandomThoughts-/blob/main/docs/posts/assets/yoeshi.png?raw=true&auto=format&fit=crop" alt="Abstract digital workspace" class="w-full aspect-video object-cover rounded-2xl mb-12">
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">Where It Started</h2>
-        <p>Every good idea needs a spark, and for me, that was a website by <a href="https://amiminnie.github.io/" class="underline hover:text-stone-700 transition">Minusha</a> that does something surprisingly fresh. Instead of just clicking from page to page, Minusha's site lets you drag windows around inside your browser, kind of like you’re working inside a miniature operating system. There were smooth animations, and that sense of actually “using” something, not just reading it. I couldn’t get the idea out of my head. How far could you really push this?</p>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">Where It Started</h2>
+        <p>Every good idea needs a spark, and for me, that was a website by <a href="https://amiminnie.github.io/" class="underline">Minusha</a> that does something surprisingly fresh. Instead of just clicking from page to page, Minusha's site lets you drag windows around inside your browser, kind of like you’re working inside a miniature operating system. There were smooth animations, and that sense of actually “using” something, not just reading it. I couldn’t get the idea out of my head. How far could you really push this?</p>
         <p>I kept poking around and the more time I spent, the more possibilities I saw. Why not interact with a website the way you’d move windows or widgets on a desktop? Why not make things playful and just a bit unpredictable? That was the turning point for me. I decided I’d try building my own take on it.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">First Steps: Amminie OS</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">First Steps: Amminie OS</h2>
         <p>That led me to my first serious experiment—Amminie OS. It wasn’t meant to be a fully-fledged system, but more of a test and a chance for me to figure things out. I spent a lot of time seeing just how far you can stretch web tech—layering windows, adding animations, moving things around—trying to recapture the energy of that first discovery.</p>
         <p>Building Amminie OS taught me a lot. I messed up, fixed things, and learned the ropes of web interfaces in the process. It was a big confidence boost, but more than that, I saw that this was only the starting line. I wanted something that felt even more alive and personal—something that genuinely captured my vision.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">From Amminie OS to Yoeshi OS</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">From Amminie OS to Yoeshi OS</h2>
         <p>What came next wasn’t just another version—it was a total reimagining. Yoeshi OS is everything I learned along the way, turned up a notch. I started looking at every feature, every animation, every little detail and asking, “Does this really feel original? Does this belong in my world?”</p>
         <p>Yoeshi OS isn’t just a website with windows stapled on; it’s meant to feel like a living, breathing space you can poke, explore, and get lost in.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">Building a Desktop in Your Browser</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">Building a Desktop in Your Browser</h2>
         <p>One of my biggest goals is making the lines between website and desktop app disappear. Sure, browsers today are powerful, but we’re still stuck clicking through static pages most of the time. Yoeshi OS throws that idea out the window. Everything happens in a desktop-like space, with multiple windows you can juggle, shuffle, and switch between—just like you would on a real computer.</p>
         <p>It’s more than a neat trick. It makes the browser feel familiar in a way that opens up what you can do and how you can do it. It’s not just about reading or watching or scrolling—it’s about interacting.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">Designing for Delight & Customization</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">Designing for Delight & Customization</h2>
         <p>I can’t help it: I care about how things look and how they move. In Yoeshi OS, we made sure everything perfectly fits, with an obsessive attention to details that makes the interface feel truly crafted. Windows don’t just snap open—they swoop, they glide, they feel alive. Animations aren’t just eye candy; they’re part of how you know what’s happening, and they ensure the experience is intuitive. Beyond the look, an operating system should bend to your will, not the other way around, so you get what feels best—day or night.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">Hidden Surprises</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">Hidden Surprises</h2>
         <p>Honestly, I just love when software sneaks in little surprises. There are plenty tucked away in Yoeshi OS—easter eggs, oddball interactions, small moments that don’t announce themselves. They’re reminders that software doesn’t have to take itself too seriously.</p>
 
-        <h2 class="text-4xl font-bold mt-12 mb-6 tracking-tight">Where Next?</h2>
+        <h2 class="rt-body-title text-4xl font-bold mt-12 mb-6 tracking-tight">Where Next?</h2>
         <p>Yoeshi OS is very much still growing. I see it as a playground—always in progress, always something to add. I’m already dreaming up new apps, richer multitasking, and whole new ways to blur the line between web and apps.</p>
         <p>Yoeshi OS isn’t just a tech project for me. It’s my attempt to stretch what a website can be. The web doesn’t have to be flat or boring. It’s a space for imagination, for experiments, for a bit of wonder.</p>
 
-        <div class="bg-stone-100 p-8 rounded-2xl mt-12 border border-stone-200">
-            <h3 class="font-bold text-lg mb-4 uppercase tracking-widest text-stone-500">Usefull Links</h3>
-            <ul class="space-y-2 text-stone-700">
-                <li><a href="https://amiminnie.github.io/" class="hover:text-black underline transition">Minusha's site</a></li>
-                <li><a href="https://dihanramanayaka.github.io/hello/docs/amminie.html" class="hover:text-black underline transition">Amminie OS</a></li>
-                <li><a href="https://dihanramanayaka.github.io/hello/docs/os.html" class="hover:text-black underline transition">Yoeshi OS</a></li>
+        <div class="rt-meta-box p-8 rounded-2xl mt-12 border">
+            <h3 class="font-bold text-lg mb-4 uppercase tracking-widest rt-body-cat">Usefull Links</h3>
+            <ul class="rt-meta-list space-y-2">
+                <li><a href="https://amiminnie.github.io/" class="underline">Minusha's site</a></li>
+                <li><a href="https://dihanramanayaka.github.io/hello/docs/amminie.html" class="underline">Amminie OS</a></li>
+                <li><a href="https://dihanramanayaka.github.io/hello/docs/os.html" class="underline">Yoeshi OS</a></li>
             </ul>
         </div>
 
-        <footer class="mt-20 pt-10 border-t border-stone-200 text-stone-500 text-sm">
+        <footer class="mt-20 pt-10 border-t rt-foot text-sm">
             <p>훌륭합니다! 기사를 끝까지 읽으셨습니다.</p>
         </footer>
     </main>
 
+    <div id="sc-dynamic-island" class="sc-dynamic-island collapsed">
+        <div class="sc-view-wrapper">
+            <div class="sc-compact-layout">
+                <div id="sc-compact-art" class="sc-compact-art">&#9834;</div>
+                <div id="sc-compact-eq" class="sc-compact-eq">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="sc-expanded-layout">
+                <div class="sc-meta-header">
+                    <div id="sc-expanded-art" class="sc-expanded-art">&#9834;</div>
+                    <div class="sc-track-details">
+                        <div class="sc-title-group">
+                            <h4 id="sc-expanded-title" class="sc-track-title">Loading...</h4>
+                            <canvas id="sc-wave-canvas" class="sc-wave-canvas" width="120" height="36"></canvas>
+                        </div>
+                        <p id="sc-expanded-artist" class="sc-track-artist">Parsing Tags...</p>
+                    </div>
+                </div>
+
+                <div class="sc-timeline-group">
+                    <div id="sc-timeline-bar" class="sc-timeline-bar-bg">
+                        <div id="sc-timeline-fill" class="sc-timeline-fill"></div>
+                        <div id="sc-timeline-handle" class="sc-timeline-handle"></div>
+                    </div>
+                    <div class="sc-time-labels">
+                        <span id="sc-time-curr">0:00</span>
+                        <span id="sc-time-rem">-0:00</span>
+                    </div>
+                </div>
+
+                <div class="sc-controls-row">
+                    <div class="sc-branding">
+                        <i class="fa-solid fa-compact-disc"></i>
+                        <span>MUSIC LIBRARY</span>
+                    </div>
+                    <div class="sc-playback-group">
+                        <button id="sc-btn-prev" class="sc-btn" title="Previous Track"><i class="fa-solid fa-backward-step"></i></button>
+                        <button id="sc-btn-play" class="sc-btn sc-btn-play" title="Play/Pause"><i id="sc-play-icon" class="fa-solid fa-play" style="margin-left: 2px;"></i></button>
+                        <button id="sc-btn-next" class="sc-btn" title="Next Track"><i class="fa-solid fa-forward-step"></i></button>
+                        <button id="sc-btn-repeat" class="sc-btn sc-btn-repeat" title="Toggle Repeat"><i class="fa-solid fa-repeat"></i></button>
+                    </div>
+                    <button id="sc-btn-lock" class="sc-btn sc-btn-lock" title="Keep Panel Expanded"><i class="fa-solid fa-thumbtack"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/common.js"></script>
+    <script src="posts.js"></script>
 </body>
 </html>

@@ -1,0 +1,118 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--rt-bg);
+    color: var(--rt-text);
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+.card-shadow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04); }
+.tracking-editorial { letter-spacing: 0.01em; }
+
+/* ---------- Navbar ---------- */
+.rt-nav {
+    border-bottom-color: var(--rt-line);
+}
+.rt-nav-brand {
+    color: var(--rt-text);
+}
+.rt-nav-link {
+    color: var(--rt-muted);
+}
+.rt-nav-link:hover,
+.rt-nav-link.active {
+    color: var(--rt-accent);
+}
+
+/* ---------- Hero ---------- */
+.rt-text-accent {
+    color: var(--rt-text);
+}
+.rt-hero-label {
+    color: var(--rt-accent);
+}
+.rt-hero-accent {
+    color: var(--rt-accent);
+}
+.rt-hero-divider {
+    background-color: var(--rt-faint);
+}
+.rt-hero-sub {
+    color: var(--rt-muted);
+}
+
+/* ---------- Featured / Article cards ---------- */
+.rt-featured,
+.rt-card {
+    background-color: var(--rt-card);
+    border-color: var(--rt-line);
+}
+.rt-featured:hover,
+.rt-card:hover {
+    background-color: var(--rt-card-hover);
+    border-color: var(--rt-line-strong);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.10);
+}
+.rt-card-title {
+    color: var(--rt-text);
+}
+.rt-card-desc {
+    color: var(--rt-muted);
+}
+.rt-card-date {
+    color: var(--rt-faint);
+}
+.rt-faint {
+    color: var(--rt-faint);
+}
+.rt-line-c {
+    border-color: var(--rt-line);
+}
+.rt-card-img-bg {
+    background-color: var(--rt-hover-bg);
+}
+
+/* ---------- Section divider ---------- */
+.rt-section-title {
+    color: var(--rt-text);
+}
+.rt-section-line {
+    background-color: var(--rt-line);
+}
+
+/* ---------- Buttons ---------- */
+.rt-btn-solid {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+.rt-btn-solid:hover {
+    background-color: var(--rt-accent);
+    color: #ffffff;
+}
+html[data-theme="dark"] .rt-btn-solid {
+    background-color: #f5f2eb;
+    color: #111111;
+}
+html[data-theme="dark"] .rt-btn-solid:hover {
+    background-color: var(--rt-accent);
+    color: #111111;
+}
+
+/* ---------- Footer ---------- */
+.rt-footer {
+    border-top-color: var(--rt-line);
+}
+.rt-footer-kr {
+    color: var(--rt-faint);
+}
+.rt-footer-copy {
+    color: var(--rt-faint);
+}
+
+/* ---------- Focus ring ---------- */
+.rt-focus:focus-visible {
+    outline: 2px solid var(--rt-accent);
+    outline-offset: 2px;
+}

@@ -1,0 +1,95 @@
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--rt-bg);
+    color: var(--rt-text);
+    cursor: default;
+}
+
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+}
+
+a, button, [role="button"] {
+    cursor: pointer;
+}
+
+.tracking-editorial { letter-spacing: 0.02em; }
+
+.article-body p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    color: var(--rt-text-soft);
+}
+
+.article-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: block;
+}
+
+.image-credit {
+    margin-bottom: 2rem;
+    font-size: 0.7rem;
+    color: var(--rt-muted);
+    text-align: right;
+}
+
+/* ---------- Navbar ---------- */
+.rt-nav { border-bottom-color: var(--rt-line); }
+.rt-nav-home { color: var(--rt-text); }
+.rt-nav-home:hover { color: var(--rt-accent); }
+.rt-nav-date { color: var(--rt-muted); }
+.rt-nav-date-strong { color: var(--rt-text); }
+
+/* ---------- Article header ---------- */
+.rt-body-cat { color: var(--rt-accent); }
+.rt-body-title { color: var(--rt-text); }
+.rt-body-sub { color: var(--rt-muted); }
+
+/* ---------- Blockquote ---------- */
+.rt-quote {
+    border-left-color: var(--rt-accent);
+    color: var(--rt-blockquote);
+}
+
+/* ---------- Links ---------- */
+.rt-body a { color: var(--rt-accent); }
+.rt-body a:hover { color: var(--rt-text); }
+
+/* ---------- Footer ---------- */
+.rt-foot { border-top-color: var(--rt-line); color: var(--rt-muted); }
+
+/* ---------- Ending block ---------- */
+.rt-ending { color: var(--rt-text-soft); }
+.rt-ending-muted { color: var(--rt-muted); }
+
+/* ---------- Meta box ---------- */
+.rt-meta-box {
+    background-color: var(--rt-bg-soft);
+    border-color: var(--rt-line);
+}
+.rt-meta-list a {
+    color: var(--rt-text-soft);
+}
+.rt-meta-list a:hover {
+    color: var(--rt-accent);
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 1rem;
+    }
+    h1 {
+        font-size: 3rem !important;
+        line-height: 1.05;
+    }
+    .article-body p {
+        font-size: 0.98rem;
+        line-height: 1.75;
+    }
+}
