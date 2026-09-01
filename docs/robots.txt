@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://randomcatuser.github.io/RandomThoughts-/sitemap.xml
