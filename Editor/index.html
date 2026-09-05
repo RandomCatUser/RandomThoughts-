@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Builder — Random Thoughts</title>
+    <link rel="icon" type="image/webp" href="https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+
+    <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+    <div class="app">
+
+        <div class="accent-bar"></div>
+
+        <header class="hdr">
+            <div class="brand">
+                <a class="logo" href="../docs/index.html">Random Thoughts<span class="logo-dot">✦</span></a>
+            </div>
+
+            <div class="hdr-actions">
+                <span id="pill" class="pill"><span id="pill-label">No draft</span></span>
+                <button id="btn-palette" class="btn" title="Commands (Ctrl+K)"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button id="btn-new" class="btn" title="Start a new draft"><i class="fa-solid fa-plus"></i>New</button>
+
+                <div class="menu-wrap">
+                    <button id="btn-export" class="btn"><i class="fa-solid fa-arrow-up-from-bracket"></i> Export</button>
+                    <div id="export-menu" class="menu">
+                        <div class="menu-head">Publish</div>
+                        <button type="button" data-act="html">Copy post HTML</button>
+                        <button type="button" data-act="entry">Copy RT_POSTS entry</button>
+                        <button type="button" data-act="dl">Download post</button>
+                        <div class="menu-foot">Code stays tucked away — the editor stays clean.</div>
+                    </div>
+                </div>
+
+                <button id="btn-save" class="btn btn--primary" title="Save draft (Ctrl+S)"><i class="fa-regular fa-floppy-disk"></i>Save</button>
+
+                <button id="th" class="btn" type="button" title="Toggle dark / light">
+                    <i class="fa-solid fa-sun"></i><i class="fa-regular fa-moon"></i>
+                </button>
+
+                <a class="btn" href="../docs/index.html"><i class="fa-solid fa-arrow-up-right-from-square"></i>Blog</a>
+            </div>
+        </header>
+
+        <main class="main">
+
+            <!-- ============ WRITER ============ -->
+            <section class="pane pane-writer">
+                <div class="pane-strip">
+                    <span class="pane-title"><i class="fa-solid fa-pen-nib"></i> Writer</span>
+                    <button id="btn-help" class="strip-btn"><i class="fa-solid fa-circle-question"></i> Markdown</button>
+                    <button id="btn-details" class="strip-btn"><i class="fa-solid fa-sliders"></i><span id="btn-details-label">Details</span></button>
+                    <span id="wordcount" class="pane-meta">0 words</span>
+                </div>
+
+                <div class="writer-scroll">
+                    <div class="writer-doc">
+                        <input id="f-category" class="w-cat" placeholder="CATEGORY" spellcheck="false" autocomplete="off">
+
+                        <input id="f-title" class="w-title" placeholder="Untitled essay" spellcheck="true" autocomplete="off">
+
+                        <input id="f-subtitle" class="w-sub" placeholder="a sweet little line to set the tone…" spellcheck="true" autocomplete="off">
+
+                        <div id="details" class="details">
+                            <div class="details-title"><i class="fa-solid fa-sliders"></i> Post details</div>
+                            <div class="det-grid">
+                                <div class="field field--full">
+                                    <label>Description</label>
+                                    <textarea id="f-description" class="fld" rows="2" placeholder="Shown on cards and in search…"></textarea>
+                                </div>
+                                <div class="field">
+                                    <label>Date</label>
+                                    <input id="f-date" class="fld" type="text" spellcheck="false">
+                                </div>
+                                <div class="field">
+                                    <label>Tags</label>
+                                    <input id="f-tags" class="fld" type="text" placeholder="Tech, Life" spellcheck="false">
+                                    <p class="fld-hint">Comma separated</p>
+                                </div>
+                                <div class="field">
+                                    <label>Slug</label>
+                                    <input id="f-slug" class="fld" type="text" placeholder="my-essay" spellcheck="false">
+                                    <p class="fld-hint">File: <code>posts/<span id="slug-preview">…</span>.html</code></p>
+                                </div>
+                                <div class="field">
+                                    <label>Cover image URL</label>
+                                    <input id="f-cover" class="fld" type="text" placeholder="https://… or posts/assets/x.jpg" spellcheck="false">
+                                </div>
+                                <div class="field">
+                                    <label>Cover alt text</label>
+                                    <input id="f-coveralt" class="fld" type="text" placeholder="Describe the image" spellcheck="false">
+                                </div>
+                                <div class="field field--check">
+                                    <input id="f-featured" type="checkbox">
+                                    <span>Feature on homepage</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-sep"></div>
+
+                        <textarea id="f-body" class="w-body" placeholder="Write your essay in Markdown…
+    	
+## A section heading
+
+Some **bold** thoughts, *italics*, and `inline code`.
+
+> A pull quote." spellcheck="true"></textarea>
+
+                        <div id="help" class="lb" role="dialog" aria-modal="true" aria-label="Markdown reference">
+                            <div class="lb-backdrop" data-close></div>
+                            <div class="lb-card">
+                                <button class="lb-close" data-close aria-label="Close">✕</button>
+                                <div class="lb-title">Markdown</div>
+                                <div class="help-row"><code class="help-syntax">## Heading</code><span class="help-desc">Section heading</span></div>
+                                <div class="help-row"><code class="help-syntax">**bold**</code><span class="help-desc">Bold</span></div>
+                                <div class="help-row"><code class="help-syntax">*italic*</code><span class="help-desc">Italic</span></div>
+                                <div class="help-row"><code class="help-syntax">&gt; quote</code><span class="help-desc">Pull quote</span></div>
+                                <div class="help-row"><code class="help-syntax">- list</code><span class="help-desc">Bullet list</span></div>
+                                <div class="help-row"><code class="help-syntax">[link](url)</code><span class="help-desc">Link</span></div>
+                                <div class="help-row"><code class="help-syntax">![img](url)</code><span class="help-desc">Image</span></div>
+                                <div class="help-row"><code class="help-syntax">```code```</code><span class="help-desc">Code</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ DIVIDER ============ -->
+            <div id="divider" class="divider" role="separator" aria-orientation="vertical" title="Drag to resize"></div>
+
+            <!-- ============ PREVIEW ============ -->
+            <section class="pane pane-preview">
+                <div class="pane-strip">
+                    <span class="pane-title"><i class="fa-solid fa-display"></i> Preview</span>
+                    <span id="preview-time" class="pane-meta">—</span>
+                    <button id="btn-refresh" class="strip-btn" title="Rebuild preview"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+                <iframe id="frame" class="preview-frame" title="Live article preview"></iframe>
+                <div id="preview-empty" class="preview-placeholder">
+                    <i class="fa-regular fa-face-smile"></i>
+                    <span>Cozy in here. Write something cute and it'll show up.</span>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="palette" class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+        <div class="palette-backdrop" data-pclose></div>
+        <div class="palette-card">
+            <input id="palette-input" class="palette-input" placeholder="Search commands…" autocomplete="off" spellcheck="false">
+            <div id="palette-list" class="palette-list"></div>
+            <div class="palette-foot">↑↓ navigate · ↵ run · esc close</div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="editor.js"></script>
+</body>
+</html>

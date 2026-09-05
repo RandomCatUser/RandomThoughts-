@@ -85,7 +85,14 @@
             <div class="ab-tools">
                 <a href="https://claude.ai" target="_blank" rel="noopener" class="ab-tool">
                     <div class="ab-tool-head">
-                        <div class="ab-tool-logo ab-tool-logo--brand"><i class="fa-brands fa-claude"></i></div>
+                        <div class="ab-tool-logo ab-tool-logo--brand" aria-label="Claude logo">
+                            <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-avatar/avatars/claude.webp"
+                                 alt="Claude"
+                                 loading="lazy"
+                                 referrerpolicy="no-referrer"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                            <span aria-hidden="true" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-weight:800; font-size:1.05rem; color:#f5f5f5; background:linear-gradient(135deg,#111827,#374151); border-radius:9999px;">C</span>
+                        </div>
                         <div>
                             <p class="ab-tool-name">Claude</p>
                             <p class="ab-tool-role">AI collaborator &amp; creative partner</p>
