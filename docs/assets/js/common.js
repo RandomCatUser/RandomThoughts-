@@ -3,7 +3,422 @@
 (function () {
     "use strict";
 
-    
+    var pagePath = window.location.pathname;
+    var inPostsDir = pagePath.indexOf('/posts/') !== -1;
+    var base = inPostsDir ? '../' : '';
+    var homeLink = base + 'index.html';
+
+    var fileName = (pagePath.split('/').pop() || '').toLowerCase();
+    var isArchive = fileName.indexOf('archive') === 0;
+    var isAbout = fileName.indexOf('about') === 0;
+    var clsHome = (!isArchive && !isAbout) ? ' active' : '';
+    var clsArchive = isArchive ? ' active' : '';
+    var clsAbout = isAbout ? ' active' : '';
+
+    /* ---- Post index (single source of truth, powers the Spotlight search) ---- */
+    window.RT_POSTS = [
+        {
+            id: "wheniflytowardsyou",
+            title: "When I Fly Towards You",
+            description: "A heartfelt reflection on the warmth, chemistry, and emotional comfort of one of the best youth romances I've ever watched.",
+            cover: "https://occ-0-2794-2218.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABT4ETtLZRm8s_WTQF-oNsrvG95fSBE1zqruP5pXje3BwtRh46HYAa5qs8EVrPiZ7UaQGrfWCptD_LNNVOwLb8nhePUFAHpOfUQuM.jpg?r=64c",
+            coverAlt: "Television in a cozy living room",
+            tags: ["Drama"],
+            date: "Aug 31, 2026",
+            url: "posts/wheniflytowardsyou.html",
+            featured: true,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "tryingchinese",
+            title: "Chinese apps are better kinda,",
+            description: "Exploring a different digital world which people who live in china uses every day, by having a moment.",
+            cover: "./posts/assets/china.jpg",
+            coverAlt: "Chinese apps are better kinda",
+            tags: ["Tech"],
+            date: "Jun 19, 2026",
+            url: "posts/tryingchinese.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "myuniversegotsmaler",
+            title: "Friends Come and Go",
+            description: "Reflecting on the quiet heartbreaks and the lessons learned from friendships that didn't last.",
+            cover: "https://images.pexels.com/photos/29239853/pexels-photo-29239853.jpeg?cs=srgb&dl=pexels-christina99999-29239853.jpg&fm=jpg",
+            coverAlt: "Friends Come and Go",
+            tags: ["Life"],
+            date: "Jul 19, 2026",
+            url: "posts/Myuniversegotsmaler.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "itsjustcode",
+            title: "It's Just Code: The Rapid Growth of Linux",
+            description: "From niche hobbyist playground to the engine of the modern internet, here is why Linux is having a moment.",
+            cover: "https://i.redd.it/my-arch-linux-hyprland-v0-ajth8fjmorfc1.png?width=1920&format=png&auto=webp&s=8239e0a95e448a693a240f6929c1d2aa936ee1d9",
+            coverAlt: "It's Just Code: The Rapid Growth of Linux",
+            tags: ["Tech"],
+            date: "Jun 18, 2026",
+            url: "posts/Itsjustcode.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "yoeshi",
+            title: "Yoeshi OS — Reimagining the Web as an OS",
+            description: "Turning browser tabs into an advanture.",
+            cover: "posts/assets/yoeshi.png",
+            coverAlt: "Yoeshi OS",
+            tags: ["Projects"],
+            date: "Jun 18, 2026",
+            url: "posts/yoeshi.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "meowkitties",
+            title: "I might be a cat",
+            description: "Why cats feel deeply relatable to me and make me feel warmer and my perspective about cats and how they are deeply related to me.",
+            cover: "posts/assets/post1.jpg",
+            coverAlt: "I might be a cat",
+            tags: ["Life"],
+            date: "May 25, 2026",
+            url: "posts/MeowKitties.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
+            id: "whysrilankaneducationsystemsucks",
+            title: "Why Sri Lankan education system feels broken",
+            description: "Exploring the challenges and shortcomings of the Sri Lankan education system and its impact on students.",
+            cover: "posts/assets/post2.avif",
+            coverAlt: "Why Sri Lankan education system feels broken",
+            tags: ["Education"],
+            date: "May 25, 2026",
+            url: "posts/WhySrilankanEducationSystemSucks.html",
+            featured: false,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        }
+    ];
+
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
+    var themeSwitchHtml =
+        '<label class="switch ml-1 scale-90 origin-center" title="Toggle dark / light">' +
+            '<input id="input" type="checkbox" checked="checked" />' +
+            '<div class="slider round">' +
+                '<div class="sun-moon">' +
+                    '<svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                    '<svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50"></circle></svg>' +
+                '</div>' +
+                '<div class="stars">' +
+                    '<svg id="star-1" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10,10 10 ,0 10 Z"></path></svg>' +
+                    '<svg id="star-2" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10,10 10 ,0 10 Z"></path></svg>' +
+                    '<svg id="star-3" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10,10 10 ,0 10 Z"></path></svg>' +
+                    '<svg id="star-4" class="star" viewBox="0 0 20 20"><path d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10,10 10 ,0 10 Z"></path></svg>' +
+                '</div>' +
+            '</div>' +
+        '</label>';
+
+    var settingsHtml =
+        '<div class="rt-settings">' +
+            '<button type="button" id="sc-settings-toggle" class="rt-settings-toggle rt-focus" title="Settings" aria-label="Settings"><i class="fa-solid fa-sliders"></i></button>' +
+            '<div class="rt-settings-dropdown">' +
+                '<div class="rt-settings-head"><i class="fa-solid fa-sliders"></i> Settings</div>' +
+                '<div class="rt-setting-row">' +
+                    '<span class="rt-setting-label"><i class="fa-solid fa-microphone"></i> Voice Tracks</span>' +
+                    '<label class="rt-toggle"><input id="voice-toggle-input" type="checkbox" /><span class="rt-toggle-slider"></span></label>' +
+                '</div>' +
+                '<div class="rt-setting-row">' +
+                    '<span class="rt-setting-label"><i class="fa-solid fa-music"></i> Show Player</span>' +
+                    '<label class="rt-toggle"><input id="player-toggle-input" type="checkbox" checked /><span class="rt-toggle-slider"></span></label>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+
+    var searchBtnHtml =
+        '<button type="button" id="rt-search-toggle" class="lt-icon-btn" title="Search (Ctrl+K)" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>';
+
+    var spotlightHtml =
+        '<div id="rt-spotlight" class="rt-spotlight">' +
+            '<div class="rt-spotlight-backdrop" data-spotlight-close></div>' +
+            '<div class="rt-spotlight-panel" role="search" aria-modal="true" aria-label="Search posts">' +
+                '<div class="rt-spotlight-input-row">' +
+                    '<i class="fa-solid fa-magnifying-glass rt-spotlight-icon"></i>' +
+                    '<input id="rt-spotlight-input" class="rt-spotlight-input" type="text" autocomplete="off" spellcheck="false" placeholder="Search essays\u2026" aria-label="Search essays">' +
+                    '<kbd class="rt-spotlight-esc">esc</kbd>' +
+                '</div>' +
+                '<div class="rt-spotlight-hint">Start typing to search essays\u2026</div>' +
+                '<div id="rt-spotlight-results" class="rt-spotlight-results"></div>' +
+            '</div>' +
+        '</div>';
+
+    var navHtml =
+        '<nav class="lt-nav">' +
+            '<div class="mx-auto max-w-[1180px] px-5 md:px-8">' +
+                '<div class="h-16 flex items-center justify-between gap-4">' +
+                    '<a href="' + homeLink + '" class="lt-logo shrink-0">' +
+                        '<span class="lt-logo-word">Random Thoughts</span>' +
+                    '</a>' +
+                    '<div class="lt-nav-links">' +
+                        '<a href="' + homeLink + '" class="lt-nav-link' + clsHome + '">Home</a>' +
+                        '<a href="' + base + 'archive.html" class="lt-nav-link' + clsArchive + '">Archive</a>' +
+                        '<a href="' + base + 'about.html" class="lt-nav-link' + clsAbout + '">About</a>' +
+                    '</div>' +
+                    '<div class="lt-ctrls">' +
+                        searchBtnHtml +
+                        themeSwitchHtml +
+                        settingsHtml +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</nav>';
+
+    var topbarHtml =
+        '<div class="lt-topbar">' +
+            '<button type="button" id="rt-back-btn" class="lt-icon-btn lt-back-btn" title="Go back" aria-label="Go back"><i class="fa-solid fa-arrow-left"></i></button>' +
+            '<div class="lt-ctrls">' +
+                searchBtnHtml +
+                themeSwitchHtml +
+                settingsHtml +
+            '</div>' +
+        '</div>';
+
+    var headerHtml = inPostsDir ? topbarHtml : navHtml;
+
+    var footerHtml =
+        '<div class="mx-auto max-w-[1180px] px-5 md:px-8 py-10 flex items-center justify-center">' +
+            '<p class="lt-footer-kr">끝에 도달하셨습니다.</p>' +
+        '</div>';
+
+    var playerHtml =
+        '<div id="sc-dynamic-island" class="sc-dynamic-island collapsed">' +
+            '<div class="sc-view-wrapper">' +
+                '<div class="sc-compact-layout">' +
+                    '<div id="sc-compact-art" class="sc-compact-art">&#9834;</div>' +
+                    '<div id="sc-compact-eq" class="sc-compact-eq"><span></span><span></span><span></span></div>' +
+                '</div>' +
+                '<div class="sc-expanded-layout">' +
+                    '<div class="sc-meta-header">' +
+                        '<div id="sc-expanded-art" class="sc-expanded-art">&#9834;</div>' +
+                        '<div class="sc-track-details">' +
+                            '<div class="sc-title-group">' +
+                                '<h4 id="sc-expanded-title" class="sc-track-title">Loading...</h4>' +
+                                '<canvas id="sc-wave-canvas" class="sc-wave-canvas" width="120" height="36"></canvas>' +
+                            '</div>' +
+                            '<p id="sc-expanded-artist" class="sc-track-artist">Parsing Tags...</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="sc-timeline-group">' +
+                        '<div id="sc-timeline-bar" class="sc-timeline-bar-bg">' +
+                            '<div id="sc-timeline-fill" class="sc-timeline-fill"></div>' +
+                            '<div id="sc-timeline-handle" class="sc-timeline-handle"></div>' +
+                        '</div>' +
+                        '<div class="sc-time-labels">' +
+                            '<span id="sc-time-curr">0:00</span>' +
+                            '<span id="sc-time-rem">-0:00</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="sc-controls-row">' +
+                        '<div class="sc-branding"><i class="fa-solid fa-compact-disc"></i><span>MUSIC LIBRARY</span></div>' +
+                        '<div class="sc-playback-group">' +
+                            '<button id="sc-btn-prev" class="sc-btn" title="Previous Track"><i class="fa-solid fa-backward-step"></i></button>' +
+                            '<button id="sc-btn-play" class="sc-btn sc-btn-play" title="Play/Pause"><i id="sc-play-icon" class="fa-solid fa-play" style="margin-left: 2px;"></i></button>' +
+                            '<button id="sc-btn-next" class="sc-btn" title="Next Track"><i class="fa-solid fa-forward-step"></i></button>' +
+                            '<button id="sc-btn-repeat" class="sc-btn sc-btn-repeat" title="Toggle Repeat"><i class="fa-solid fa-repeat"></i></button>' +
+                        '</div>' +
+                        '<button id="sc-btn-lock" class="sc-btn sc-btn-lock" title="Keep Panel Expanded"><i class="fa-solid fa-thumbtack"></i></button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+
+    function renderShell() {
+        var headerSlot = document.getElementById('site-header');
+        var footerSlot = document.getElementById('site-footer');
+        var playerSlot = document.getElementById('sc-player');
+
+        if (headerSlot) headerSlot.innerHTML = headerHtml;
+        if (footerSlot) footerSlot.innerHTML = footerHtml;
+        if (playerSlot) playerSlot.innerHTML = playerHtml;
+
+        var spotlightHost = document.getElementById('rt-spotlight-host');
+        if (spotlightHost) { spotlightHost.innerHTML = spotlightHtml; }
+        else if (footerSlot) {
+            footerSlot.insertAdjacentHTML('beforebegin', spotlightHtml);
+        }
+
+        /* Slim top bar back button */
+        var backBtn = document.getElementById('rt-back-btn');
+        if (backBtn) {
+            backBtn.addEventListener('click', function () {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = homeLink;
+                }
+            });
+        }
+
+        initSpotlight();
+    }
+
+    function initSpotlight() {
+        var toggleBtn = document.getElementById('rt-search-toggle');
+        var spotlight = document.getElementById('rt-spotlight');
+        if (!toggleBtn || !spotlight) return;
+
+        var input = document.getElementById('rt-spotlight-input');
+        var results = document.getElementById('rt-spotlight-results');
+        var hint = spotlight.querySelector('.rt-spotlight-hint');
+        var postList = (window.RT_POSTS || []).slice();
+        var highlighted = -1;
+
+        function contributorNames(contributors) {
+            if (!contributors || !contributors.length) return '';
+            return contributors.map(function (c) { return c.name; }).join(', ');
+        }
+
+        function openSpotlight() {
+            spotlight.classList.add('is-open');
+            document.body.classList.add('rt-spotlight-open');
+            if (input) setTimeout(function () { input.focus(); }, 60);
+        }
+        function closeSpotlight() {
+            spotlight.classList.remove('is-open');
+            document.body.classList.remove('rt-spotlight-open');
+        }
+
+        /* Backdrop click-to-close via data attribute */
+        var backdrop = spotlight.querySelector('[data-spotlight-close]');
+        if (backdrop) backdrop.addEventListener('click', closeSpotlight);
+
+        toggleBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (spotlight.classList.contains('is-open')) closeSpotlight();
+            else openSpotlight();
+        });
+
+        function renderResults(query) {
+            var q = (query || '').trim().toLowerCase();
+            if (!q) {
+                highlight(-1);
+                if (hint) hint.style.display = '';
+                results.innerHTML = '';
+                return;
+            }
+            if (hint) hint.style.display = 'none';
+
+            var matched = postList.filter(function (p) {
+                var hay = (p.title + ' ' + p.description + ' ' + (p.tags || []).join(' ') + ' ' + p.date).toLowerCase();
+                return hay.indexOf(q) !== -1;
+            });
+
+            if (!matched.length) {
+                results.innerHTML = '<div class="rt-spotlight-empty">No essays found for &ldquo;<b>' + escapeHtml(query) + '</b>&rdquo;</div>';
+                highlight(-1);
+                return;
+            }
+
+            var out = matched.map(function (p, i) {
+                var tags = (p.tags || []).map(function (t) {
+                    return '<span class="lt-tag">' + escapeHtml(t) + '</span>';
+                }).join('&nbsp;&middot;&nbsp;');
+                var name = contributorNames(p.contributors) || 'Dihan Ramanayaka';
+                var dst = base + p.url;
+                var thumb = p.cover.indexOf('posts/') === 0 ? base + p.cover : p.cover;
+                return '<a class="rt-spotlight-item" href="' + escapeHtml(dst) + '" data-idx="' + i + '">' +
+                        '<div class="rt-spotlight-item-thumb" style="background-image:url(\'' + escapeHtml(thumb) + '\')"></div>' +
+                        '<div class="rt-spotlight-item-main">' +
+                            '<div class="rt-spotlight-item-title">' + escapeHtml(p.title) + '</div>' +
+                            '<div class="rt-spotlight-item-desc">' + escapeHtml(p.description) + '</div>' +
+                            '<div class="rt-spotlight-item-meta">' +
+                                '<span>' + escapeHtml(p.date) + '</span>' +
+                                '<span>' + escapeHtml(name) + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<span class="rt-spotlight-item-tags">' + tags + '</span>' +
+                    '</a>';
+            }).join('');
+
+            results.innerHTML = out;
+            highlight(0);
+
+            Array.prototype.forEach.call(results.querySelectorAll('.rt-spotlight-item'), function (el) {
+                el.addEventListener('mousemove', function () {
+                    highlight(parseInt(el.getAttribute('data-idx'), 10));
+                });
+            });
+        }
+
+        function highlight(idx) {
+            highlighted = idx;
+            Array.prototype.forEach.call(results.querySelectorAll('.rt-spotlight-item'), function (el) {
+                var i = parseInt(el.getAttribute('data-idx'), 10);
+                el.classList.toggle('active', i === idx);
+            });
+        }
+
+        if (input) {
+            input.addEventListener('input', function () { renderResults(input.value); });
+            input.addEventListener('keydown', function (e) {
+                var items = results.querySelectorAll('.rt-spotlight-item');
+                if (e.key === 'ArrowDown') { e.preventDefault(); highlight(Math.min(highlighted + 1, items.length - 1)); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); highlight(Math.max(highlighted - 1, 0)); }
+                else if (e.key === 'Enter') {
+                    var active = results.querySelector('.rt-spotlight-item.active');
+                    if (active) window.location.href = active.getAttribute('href');
+                } else if (e.key === 'Escape') {
+                    closeSpotlight();
+                }
+            });
+
+            /* Keydown just handled Escape for the input; a global handler covers it
+               when focus is elsewhere (e.g. after clicking a result area). */
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                openSpotlight();
+            } else if (e.key === 'Escape') {
+                if (spotlight.classList.contains('is-open')) closeSpotlight();
+            }
+        });
+    }
+
+    renderShell();
+
     var THEME_KEY = "rt-theme";
 
     function applyTheme(theme) {
@@ -391,8 +806,15 @@
     }
 
     function registerInteractionEvents() {
-        island.addEventListener('mouseenter', function () { expandIslandState(); });
-        island.addEventListener('mouseleave', function () { if (!stickyLock) { collapseIslandState(); } });
+        /* On touch devices hover events are synthesized from taps and would
+           double-toggle the panel (expand on mouseenter, then collapse on the
+           tap), making it feel "hard to open". Disable hover-based state
+           changes when the pointer is primarily touch. */
+        var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        if (finePointer) {
+            island.addEventListener('mouseenter', function () { expandIslandState(); });
+            island.addEventListener('mouseleave', function () { if (!stickyLock) { collapseIslandState(); } });
+        }
 
         btnLock.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -422,21 +844,43 @@
             store(P_TIME, String(audioPlayer.currentTime * 1000));
         });
 
+        /* On touch devices mouseenter/mouseleave don't apply — treat a tap on
+           the island (outside its buttons) as the toggle. A short debounce
+           prevents re-triggering while the size transition is still in-flight. */
+        var lastToggle = 0;
+        var TRANSITION_MS = 520;
+
+        function toggleIsland() {
+            var now = Date.now();
+            if (now - lastToggle < TRANSITION_MS) return;
+            lastToggle = now;
+            if (islandExpanded) {
+                stickyLock = false;
+                btnLock.classList.remove('locked');
+                store(P_LOCK, "0");
+                collapseIslandState();
+            } else {
+                stickyLock = true;
+                btnLock.classList.add('locked');
+                store(P_LOCK, "1");
+                expandIslandState();
+            }
+        }
+
         island.addEventListener('click', function (e) {
             var isInteractiveNode = e.target.closest('button') || e.target.closest('#sc-timeline-bar');
             if (!isInteractiveNode) {
-                if (islandExpanded) {
-                    stickyLock = false;
-                    btnLock.classList.remove('locked');
-                    store(P_LOCK, "0");
-                    collapseIslandState();
-                } else {
-                    stickyLock = true;
-                    btnLock.classList.add('locked');
-                    store(P_LOCK, "1");
-                    expandIslandState();
-                }
+                toggleIsland();
             }
+        });
+
+        /* Mobile reliability: a light tap toggles the panel even if the browser
+           is slow to synthesize a `click` after the pointer is lifted. */
+        island.addEventListener('pointerup', function (e) {
+            var isInteractiveNode = e.target.closest('button') || e.target.closest('#sc-timeline-bar');
+            if (isInteractiveNode) return;
+            if (e.pointerType === 'mouse') return; /* desktop hover path */
+            toggleIsland();
         });
     }
 

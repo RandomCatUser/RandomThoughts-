@@ -6,8 +6,8 @@ body {
     cursor: default;
 }
 
-h1, h2, h3 {
-    font-family: 'Playfair Display', serif;
+.article-body {
+    padding-top: 3rem;
 }
 
 a, button, [role="button"] {
@@ -38,13 +38,6 @@ a, button, [role="button"] {
     color: var(--rt-muted);
     text-align: right;
 }
-
-/* ---------- Navbar ---------- */
-.rt-nav { border-bottom-color: var(--rt-line); }
-.rt-nav-home { color: var(--rt-text); }
-.rt-nav-home:hover { color: var(--rt-accent); }
-.rt-nav-date { color: var(--rt-muted); }
-.rt-nav-date-strong { color: var(--rt-text); }
 
 /* ---------- Article header ---------- */
 .rt-body-cat { color: var(--rt-accent); }
@@ -81,9 +74,6 @@ a, button, [role="button"] {
 }
 
 @media (max-width: 640px) {
-    body {
-        padding: 1rem;
-    }
     h1 {
         font-size: 3rem !important;
         line-height: 1.05;
