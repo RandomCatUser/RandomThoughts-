@@ -488,10 +488,10 @@
             voice: false
         },
         {
-            src: musicPath('스텔라장(Stella Jang) - Colors.mp3'),
-            title: 'Colors',
-            artist: '스텔라장(Stella Jang)',
-            artwork: artPath('스텔라장(Stella Jang) - Colors.webp'),
+            src: musicPath('心动节奏.mp3'),
+            title: '心动节奏',
+            artist: 'ayi',
+            artwork: artPath('心动节奏.jpg'),
             voice: true
         },
         {
