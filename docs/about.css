@@ -1,14 +1,9 @@
-/* ============================================================
-   RANDOM THOUGHTS — about.css
-   ============================================================ */
-
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--rt-bg);
     color: var(--rt-text);
 }
 
-/* ---------- Hero ---------- */
 .ab-hero {
     max-width: 760px;
 }
@@ -69,7 +64,6 @@ body {
     margin-top: 2px;
 }
 
-/* ---------- Profile card ---------- */
 .ab-profile {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -122,7 +116,6 @@ body {
 }
 .ab-chip i { font-size: 11px; }
 
-/* ---------- Sections ---------- */
 .ab-section {
     margin-top: 64px;
 }
@@ -134,7 +127,6 @@ body {
     color: var(--rt-text);
 }
 
-/* ---------- Tools ---------- */
 .ab-tools {
     margin-top: 20px;
     display: grid;
@@ -193,7 +185,6 @@ body {
     color: var(--rt-text-soft);
 }
 
-/* ---------- End ---------- */
 .ab-end {
     margin-top: 72px;
     border-top: 1px solid var(--rt-line);
@@ -220,7 +211,6 @@ body {
 .ab-end-link:hover { gap: 12px; }
 .ab-end-link:hover i { transform: translateX(2px); }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 640px) {
     .ab-profile {
         grid-template-columns: 1fr;

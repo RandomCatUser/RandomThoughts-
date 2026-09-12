@@ -5,7 +5,6 @@ body {
     cursor: default;
 }
 
-/* ---------- Hero ---------- */
 .arc-eyebrow {
     font-size: 12px;
     font-weight: 600;
@@ -43,7 +42,6 @@ body {
     background: var(--rt-line);
 }
 
-/* ---------- Index ---------- */
 .arc-index { margin-top: 8px; }
 .arc-item { border-bottom: 1px solid var(--rt-line); }
 .arc-item:last-child { border-bottom: 0; }

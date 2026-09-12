@@ -39,29 +39,23 @@ a, button, [role="button"] {
     text-align: right;
 }
 
-/* ---------- Article header ---------- */
 .rt-body-cat { color: var(--rt-accent); }
 .rt-body-title { color: var(--rt-text); }
 .rt-body-sub { color: var(--rt-muted); }
 
-/* ---------- Blockquote ---------- */
 .rt-quote {
     border-left-color: var(--rt-accent);
     color: var(--rt-blockquote);
 }
 
-/* ---------- Links ---------- */
 .rt-body a { color: var(--rt-accent); }
 .rt-body a:hover { color: var(--rt-text); }
 
-/* ---------- Footer ---------- */
 .rt-foot { border-top-color: var(--rt-line); color: var(--rt-muted); }
 
-/* ---------- Ending block ---------- */
 .rt-ending { color: var(--rt-text-soft); }
 .rt-ending-muted { color: var(--rt-muted); }
 
-/* ---------- Meta box ---------- */
 .rt-meta-box {
     background-color: var(--rt-bg-soft);
     border-color: var(--rt-line);

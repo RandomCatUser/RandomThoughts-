@@ -48,10 +48,6 @@ AUTHOR_PHOTO = (
 )
 
 
-# ---------------------------------------------------------------------------
-# Front matter
-# ---------------------------------------------------------------------------
-
 def parse_front_matter(text):
     """Return (meta: dict, body: str) for a draft containing a --- block."""
     if not text.startswith("---"):
@@ -106,10 +102,6 @@ def display_to_iso(display):
     idx = months.index(mon) if mon in months else 0
     return "%s-%02d-%02d" % (int(m.group(3)), idx + 1, int(m.group(2)))
 
-
-# ---------------------------------------------------------------------------
-# Minimal Markdown -> HTML (the subset used by this blog's posts)
-# ---------------------------------------------------------------------------
 
 def inline(text):
     text = html.escape(text, quote=False)
@@ -216,10 +208,6 @@ def decorate_body(md):
     return html_body
 
 
-# ---------------------------------------------------------------------------
-# Post generation
-# ---------------------------------------------------------------------------
-
 def build_post(meta, body_text):
     title = meta.get("title", "Untitled").strip()
     slug = (meta.get("slug") or slugify(title) or "untitled").strip()
@@ -263,7 +251,6 @@ def build_post(meta, body_text):
         '    <link rel="canonical" href="%s">' % canonical,
         '    <link rel="icon" type="image/webp" href="%s">' % AUTHOR_PHOTO,
         "",
-        "    <!-- Open Graph -->",
         '    <meta property="og:type" content="article">',
         '    <meta property="og:site_name" content="Random Thoughts">',
         '    <meta property="og:title" content="%s | Random Thoughts Digest">' % esc(title),
@@ -272,21 +259,17 @@ def build_post(meta, body_text):
         '    <meta property="og:image" content="%s">' % esc(cover),
         '    <meta property="article:published_time" content="%s">' % iso,
         "",
-        "    <!-- Twitter Card -->",
         '    <meta name="twitter:card" content="summary">',
         '    <meta name="twitter:title" content="%s | Random Thoughts Digest">' % esc(title),
         '    <meta name="twitter:description" content="%s">' % esc(description),
         '    <meta name="twitter:image" content="%s">' % esc(cover),
         '    <script src="https://cdn.tailwindcss.com"></script>',
         "",
-        "    <!-- Fonts -->",
         '    <link rel="preconnect" href="https://fonts.googleapis.com">',
         '    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
         '    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">',
         "",
-        "    <!-- Font Awesome (player icons) -->",
         '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">',
-        "    <!-- jsmediatags (metadata parsing) -->",
         '    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>',
         "",
         '    <link rel="stylesheet" href="../assets/css/common.css">',
@@ -294,7 +277,6 @@ def build_post(meta, body_text):
         "</head>",
         '<body class="antialiased">',
         "",
-        "    <!-- Header (injected by common.js) -->",
         '    <div id="site-header"></div>',
         "",
         '    <main class="mx-auto max-w-3xl px-5 md:px-8 article-body">',
@@ -319,10 +301,8 @@ def build_post(meta, body_text):
         "        </footer>",
         "    </main>",
         "",
-        "    <!-- Footer (injected by common.js) -->",
         '    <div id="site-footer"></div>',
         "",
-        "    <!-- Dynamic island music player (injected by common.js) -->",
         '    <div id="sc-player"></div>',
         "",
         '    <script src="../assets/js/common.js"></script>',
@@ -389,10 +369,6 @@ def insert_entry(common_js_path, entry, slug):
         f.write(updated)
     return updated
 
-
-# ---------------------------------------------------------------------------
-# CLI
-# ---------------------------------------------------------------------------
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Build a Random Thoughts post page.")

@@ -5,7 +5,6 @@
 
         var postList = (window.RT_POSTS || []).slice();
 
-        /* ---- Render posts from data ---- */
         function escapeHtml(str) {
             return String(str).replace(/[&<>"']/g, function (c) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -100,7 +99,6 @@
 
         render(postList);
 
-        /* ---- Scroll reveal ---- */
         function revealAll() {
             var els = Array.prototype.slice.call(document.querySelectorAll('.lt-reveal, .lt-rise'));
             els.forEach(function (el) { el.classList.add('is-visible'); });

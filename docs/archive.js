@@ -51,7 +51,6 @@
             (p.tags || []).forEach(function (t) { topicCount[t] = true; });
         });
 
-        /* ---- Hero sentence: "— 8 essays, across 5 topics." ---- */
         var countEl = document.getElementById('arc-count');
         if (countEl) {
             var nEssays = posts.length;
@@ -72,7 +71,6 @@
             }
         }
 
-        /* ---- Index: a single quiet list, newest first ---- */
         var indexEl = document.getElementById('arc-index');
         if (!indexEl) return;
 

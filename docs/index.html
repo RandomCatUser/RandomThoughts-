@@ -10,7 +10,6 @@
     <link rel="canonical" href="https://randomcatuser.github.io/RandomThoughts-/">
     <link rel="icon" type="image/webp" href="https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true">
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Random Thoughts">
     <meta property="og:title" content="Random Thoughts">
@@ -18,7 +17,6 @@
     <meta property="og:url" content="https://randomcatuser.github.io/RandomThoughts-/">
     <meta property="og:image" content="https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Random Thoughts">
     <meta name="twitter:description" content="A personal collection of things that came into my mind.">
@@ -26,14 +24,11 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonts (these were missing before — headings/body were silently falling back) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome (player icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- jsmediatags (metadata parsing) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
 
     <link rel="stylesheet" href="assets/css/common.css">
@@ -49,11 +44,9 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header (injected by common.js) -->
     <div id="site-header"></div>
 
     <main>
-        <!-- Hero -->
         <header class="mx-auto max-w-[1180px] px-5 md:px-8 pt-16 md:pt-24 pb-12">
             <p class="lt-eyebrow lt-rise">A blog by Dihan Ramanayaka</p>
             <h1 class="lt-hero-title lt-rise mt-5">
@@ -63,10 +56,8 @@
             <p class="lt-hero-sub lt-rise">A personal collection of things that came into my mind.</p>
         </header>
 
-        <!-- Featured post (rendered by index.js from RT_POSTS) -->
         <div id="lt-featured-slot" class="mx-auto max-w-[1180px] px-5 md:px-8 mb-14 md:mb-16"></div>
 
-        <!-- Latest articles (rendered by index.js from RT_POSTS) -->
         <section class="mx-auto max-w-[1180px] px-5 md:px-8 pb-20 md:pb-24">
             <div class="mb-6 flex items-end justify-between lt-reveal">
                 <h2 class="lt-section-title">Latest articles</h2>
@@ -76,10 +67,8 @@
             <div id="lt-grid" class="lt-grid"></div>
         </section>
     </main>
-    <!-- Footer (injected by common.js) -->
     <div id="site-footer"></div>
 
-    <!-- Dynamic island music player (injected by common.js) -->
     <div id="sc-player"></div>
 
     <script src="assets/js/common.js"></script>

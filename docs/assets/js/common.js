@@ -15,7 +15,7 @@
     var clsArchive = isArchive ? ' active' : '';
     var clsAbout = isAbout ? ' active' : '';
 
-    /* ---- Post index (single source of truth, powers the Spotlight search) ---- */
+    /* post index — single source of truth for search and cards */
     window.RT_POSTS = [
         {
             id: "wheniflytowardsyou",
@@ -319,7 +319,7 @@
             document.body.classList.remove('rt-spotlight-open');
         }
 
-        /* Backdrop click-to-close via data attribute */
+        /* click the backdrop to close */
         var backdrop = spotlight.querySelector('[data-spotlight-close]');
         if (backdrop) backdrop.addEventListener('click', closeSpotlight);
 
@@ -403,8 +403,7 @@
                 }
             });
 
-            /* Keydown just handled Escape for the input; a global handler covers it
-               when focus is elsewhere (e.g. after clicking a result area). */
+            /* Esc elsewhere is handled by the global keydown below */
         }
 
         document.addEventListener('keydown', function (e) {
@@ -630,7 +629,7 @@
             }
         }
 
-        /* If voice just became disabled, make sure we're not on a vocal track */
+        /* if voice is off, skip vocal tracks */
         if (!voiceEnabled) {
             while (localTracks[currentIdx] && localTracks[currentIdx].voice) {
                 currentIdx++;
@@ -806,10 +805,7 @@
     }
 
     function registerInteractionEvents() {
-        /* On touch devices hover events are synthesized from taps and would
-           double-toggle the panel (expand on mouseenter, then collapse on the
-           tap), making it feel "hard to open". Disable hover-based state
-           changes when the pointer is primarily touch. */
+        /* touch screens fake hover on tap, which would double-toggle the panel */
         var finePointer = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
         if (finePointer) {
             island.addEventListener('mouseenter', function () { expandIslandState(); });
@@ -844,9 +840,7 @@
             store(P_TIME, String(audioPlayer.currentTime * 1000));
         });
 
-        /* On touch devices mouseenter/mouseleave don't apply — treat a tap on
-           the island (outside its buttons) as the toggle. A short debounce
-           prevents re-triggering while the size transition is still in-flight. */
+        /* touch: a tap on the island toggles it, debounced during the transition */
         var lastToggle = 0;
         var TRANSITION_MS = 520;
 
@@ -874,8 +868,7 @@
             }
         });
 
-        /* Mobile reliability: a light tap toggles the panel even if the browser
-           is slow to synthesize a `click` after the pointer is lifted. */
+        /* light tap toggles even if the browser is slow to fire click */
         island.addEventListener('pointerup', function (e) {
             var isInteractiveNode = e.target.closest('button') || e.target.closest('#sc-timeline-bar');
             if (isInteractiveNode) return;
@@ -957,8 +950,7 @@
         else { island.className = "sc-dynamic-island collapsed"; }
     }
 
-    /* Save precise playback position right before leaving the page,
-       so switching pages resumes from exactly where we stopped. */
+    /* save the position before leaving so the next page resumes where we stopped */
     window.addEventListener('beforeunload', function () {
         if (audioPlayer && !audioPlayer.paused) {
             store(P_TIME, String(audioPlayer.currentTime * 1000));

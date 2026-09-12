@@ -31,7 +31,6 @@
             io.observe(node);
         }
 
-        /* ---- Hero stats ---- */
         var statsEl = document.getElementById('ab-stats');
         if (statsEl) {
             var topicSet = {};
