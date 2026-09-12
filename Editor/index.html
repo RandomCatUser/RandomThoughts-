@@ -3,102 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Builder — Random Thoughts</title>
+    <title>Builder — Random Thoughts</title>
     <link rel="icon" type="image/webp" href="https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-
     <link rel="stylesheet" href="editor.css">
 </head>
 <body>
-    <div class="app">
+<div class="window">
 
-        <header class="hdr">
-            <div class="hdr-left">
-                <a class="brand" href="../docs/index.html">
-                    <span class="brand-mark" aria-hidden="true">RT</span>
-                    <span class="brand-name">Random Thoughts</span>
-                    <span class="brand-sub">Studio</span>
-                </a>
-                <span class="hdr-split" aria-hidden="true"></span>
-                <span class="hdr-doc">
-                    <span class="hdr-doc-label">Draft</span>
-                    <span id="doc-title" class="hdr-doc-title"></span>
-                </span>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button id="btn-new" class="tbtn" title="New draft"><i class="fa-solid fa-plus"></i><span>New</span></button>
+            <span class="t-sep" aria-hidden="true"></span>
+            <button id="btn-save" class="tbtn tbtn--primary" title="Save (⌘S)"><i class="fa-regular fa-floppy-disk"></i><span>Save</span></button>
+            <span id="pill" class="pill"><span id="pill-label">Unsaved</span></span>
+            <span id="doc-title" hidden></span>
+        </div>
+
+        <div class="toolbar-group toolbar-group--center">
+            <div class="seg" role="tablist" aria-label="Editor / Preview">
+                <button type="button" id="seg-write" class="seg-btn active" role="tab" aria-selected="true"><i class="fa-solid fa-pen-nib"></i> Editor</button>
+                <button type="button" id="seg-both" class="seg-btn" role="tab" aria-selected="false"><i class="fa-solid fa-columns"></i> Split</button>
+                <button type="button" id="seg-preview" class="seg-btn" role="tab" aria-selected="false"><i class="fa-solid fa-eye"></i> Preview</button>
             </div>
+        </div>
 
-            <div class="hdr-actions">
-                <span id="pill" class="pill"><i class="pill-dot" aria-hidden="true"></i><span id="pill-label">Unsaved</span></span>
-                <button id="btn-palette" class="btn btn--icon" title="Commands (Ctrl+K)"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <button id="btn-help" class="btn btn--icon" title="Markdown reference"><i class="fa-solid fa-circle-question"></i></button>
+        <div class="toolbar-group">
+            <button id="btn-focus-toolbar" class="tbtn tbtn--subtle" title="Focus — hide distractions"><i class="fa-solid fa-eye-slash"></i><span>Focus</span></button>
+            <span class="t-sep" aria-hidden="true"></span>
+            <button id="btn-palette" class="tbtn tbtn--ghost" title="Commands (⌘K)"><i class="fa-solid fa-command"></i><span>Commands</span></button>
+            <button id="btn-help" class="tbtn tbtn--ghost" title="Reference"><i class="fa-solid fa-book-open"></i></button>
+            <span class="t-sep" aria-hidden="true"></span>
+            <button id="btn-sidebar" class="tbtn tbtn--ghost" title="Toggle navigator" aria-label="Toggle navigator"><i class="fa-solid fa-sidebar"></i></button>
+            <button id="th" class="tbtn tbtn--ghost" type="button" title="Appearance"><i class="fa-solid fa-circle-half-stroke"></i></button>
+            <span class="t-sep" aria-hidden="true"></span>
+            <div class="menu-wrap">
+                <button id="btn-export" class="tbtn tbtn--ghost"><i class="fa-solid fa-share-from-square"></i><span>Export</span><i class="fa-solid fa-chevron-down tbtn-caret"></i></button>
+                <div id="export-menu" class="menu">
+                    <div class="menu-head">Publish</div>
+                    <button type="button" data-act="html"><i class="fa-solid fa-code"></i><span>Copy post HTML</span><em>⌘⇧C</em></button>
+                    <button type="button" data-act="entry"><i class="fa-solid fa-list"></i><span>Copy index entry</span></button>
+                    <button type="button" data-act="dl"><i class="fa-solid fa-download"></i><span>Download .html</span></button>
+                    <div class="menu-foot">HTML goes to <code>docs/posts/</code> · Entry goes to <code>RT_POSTS</code>.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <span class="hdr-split" aria-hidden="true"></span>
+    <button id="zen-exit" class="zen-exit" type="button"><i class="fa-solid fa-compress"></i> Exit focus</button>
+    <div class="workspace mode-write" id="workspace">
 
-                <button id="btn-new" class="btn" title="Start a new draft"><i class="fa-solid fa-plus"></i><span class="btn-txt">New</span></button>
+        <aside class="sidebar hidden" id="sidebar">
+            <div class="sb-section">
+                <div class="sb-head">Navigator</div>
+                <nav class="sb-nav">
+                    <button type="button" class="sb-item active"><i class="fa-solid fa-file-lines"></i><span>Draft</span><em id="sb-wordcount">0 words</em></button>
+                    <button type="button" class="sb-item" id="sb-focus-details"><i class="fa-solid fa-sliders"></i><span>Metadata</span><i class="fa-solid fa-chevron-right sb-chevron"></i></button>
+                    <button type="button" class="sb-item" id="sb-open-preview"><i class="fa-solid fa-display"></i><span>Preview</span></button>
+                </nav>
+            </div>
+            <div class="sb-section">
+                <div class="sb-head"><span>Outline</span><span class="sb-head-count" id="outline-count"></span></div>
+                <div id="outline" class="outline">
+                    <span class="outline-empty">Headings appear here</span>
+                </div>
+            </div>
+            <div class="sb-section sb-section--meta">
+                <div class="sb-head">Details</div>
+                <div class="sb-kv"><span>File</span><b>posts/<span id="slug-preview">untitled</span>.html</b></div>
+                <div class="sb-kv"><span>Reading</span><b id="status-read">~0 min</b></div>
+                <div class="sb-kv"><span>Characters</span><b id="status-chars">0</b></div>
+            </div>
+            <div class="sb-foot">
+                <span class="sb-foot-label">Random Thoughts Studio</span>
+                <span class="sb-foot-ver">Builder 1.1</span>
+            </div>
+        </aside>
 
-                <div class="menu-wrap">
-                    <button id="btn-export" class="btn" title="Export this post"><i class="fa-solid fa-arrow-up-from-bracket"></i><span class="btn-txt">Export</span></button>
-                    <div id="export-menu" class="menu">
-                        <div class="menu-head">Publish</div>
-                        <button type="button" data-act="html"><i class="fa-solid fa-code"></i>Copy post HTML</button>
-                        <button type="button" data-act="entry"><i class="fa-solid fa-list"></i>Copy RT_POSTS entry</button>
-                        <button type="button" data-act="dl"><i class="fa-solid fa-file-arrow-down"></i>Download post</button>
-                        <div class="menu-foot">Grab the code, paste it into the repo — the editor stays clean.</div>
+        <div class="main">
+            <section class="pane pane-writer">
+                <div class="pane-bar">
+                    <span class="pane-label"><i class="fa-solid fa-pen-nib"></i> Editor</span>
+                    <div class="pane-bar-actions">
+                        <span class="mono-hint" id="preview-time">—</span>
+                        <button id="btn-refresh" class="mini-btn" title="Rebuild preview"><i class="fa-solid fa-rotate"></i></button>
                     </div>
                 </div>
-
-                <button id="th" class="btn btn--icon" type="button" title="Toggle dark / light"><i class="fa-solid fa-sun"></i><i class="fa-regular fa-moon"></i></button>
-
-                <button id="btn-save" class="btn btn--primary" title="Save draft (Ctrl+S)"><i class="fa-regular fa-floppy-disk"></i><span class="btn-txt">Save</span></button>
-            </div>
-        </header>
-
-        <main class="main">
-
-            <section class="pane pane-writer">
-                <div class="pane-strip">
-                    <span class="pane-title"><i class="fa-solid fa-pen-nib"></i> Writer</span>
-                </div>
-
                 <div class="writer-scroll">
                     <div class="writer-doc">
                         <input id="f-category" class="w-cat" placeholder="CATEGORY" spellcheck="false" autocomplete="off">
+                        <input id="f-title" class="w-title" placeholder="Untitled" spellcheck="true" autocomplete="off">
+                        <input id="f-subtitle" class="w-sub" placeholder="A short subtitle to set the tone…" spellcheck="true" autocomplete="off">
 
-                        <input id="f-title" class="w-title" placeholder="Untitled essay" spellcheck="true" autocomplete="off">
-
-                        <input id="f-subtitle" class="w-sub" placeholder="a sweet little line to set the tone…" spellcheck="true" autocomplete="off">
-
-                        <div class="toolbar" role="toolbar" aria-label="Formatting">
+                        <div class="toolbar-inline" role="toolbar" aria-label="Formatting">
                             <div class="tb-group">
-                                <button type="button" class="tb-btn" data-cmd="bold" title="Bold"><i class="fa-solid fa-bold"></i></button>
+                                <button type="button" class="tb-btn" data-cmd="bold" title="Bold (⌘B)"><i class="fa-solid fa-bold"></i></button>
                                 <button type="button" class="tb-btn" data-cmd="italic" title="Italic"><i class="fa-solid fa-italic"></i></button>
                                 <button type="button" class="tb-btn" data-cmd="code" title="Inline code"><i class="fa-solid fa-code"></i></button>
                                 <button type="button" class="tb-btn" data-cmd="link" title="Link"><i class="fa-solid fa-link"></i></button>
                                 <button type="button" class="tb-btn" data-cmd="image" title="Image"><i class="fa-regular fa-image"></i></button>
-                                <span class="tb-sep" aria-hidden="true"></span>
+                                <span class="tb-sep"></span>
                                 <button type="button" class="tb-btn" data-cmd="h2" title="Heading 2"><span class="tb-txt">H2</span></button>
                                 <button type="button" class="tb-btn" data-cmd="h3" title="Heading 3"><span class="tb-txt">H3</span></button>
                                 <button type="button" class="tb-btn" data-cmd="quote" title="Quote"><i class="fa-solid fa-quote-left"></i></button>
-                                <button type="button" class="tb-btn" data-cmd="list" title="Bullet list"><i class="fa-solid fa-list-ul"></i></button>
-                                <span class="tb-sep" aria-hidden="true"></span>
-                                <button type="button" class="tb-btn" data-cmd="codeblock" title="Code block"><i class="fa-solid fa-terminal"></i></button>
+                                <button type="button" class="tb-btn" data-cmd="list" title="List"><i class="fa-solid fa-list-ul"></i></button>
+                                <button type="button" class="tb-btn" data-cmd="codeblock" title="Code block"><i class="fa-solid fa-square-code"></i></button>
                             </div>
                             <div class="tb-group tb-group--end">
-                                <button type="button" id="btn-details" class="tb-btn tb-btn--label" title="Toggle post metadata"><i class="fa-solid fa-sliders"></i><span id="btn-details-label">Details</span></button>
+                                <button type="button" id="btn-details" class="tb-btn tb-btn--label"><i class="fa-solid fa-sliders"></i><span id="btn-details-label">Details</span></button>
                             </div>
                         </div>
 
                         <div id="details" class="details">
-                            <div class="details-title"><i class="fa-solid fa-sliders"></i> Post details</div>
+                            <div class="details-head">
+                                <span><i class="fa-solid fa-sliders"></i> Metadata</span>
+                                <span class="details-hint">Saved locally</span>
+                            </div>
                             <div class="det-grid">
                                 <div class="field field--full">
                                     <label>Description</label>
-                                    <textarea id="f-description" class="fld" rows="2" placeholder="Shown on cards and in search…"></textarea>
+                                    <textarea id="f-description" class="fld" rows="2" placeholder="Shown on cards and search…"></textarea>
                                 </div>
                                 <div class="field">
                                     <label>Date</label>
@@ -107,53 +135,64 @@
                                 <div class="field">
                                     <label>Tags</label>
                                     <input id="f-tags" class="fld" type="text" placeholder="Tech, Life" spellcheck="false">
-                                    <p class="fld-hint">Comma separated</p>
+                                    <span class="fld-hint">Comma separated</span>
                                 </div>
                                 <div class="field">
                                     <label>Slug</label>
                                     <input id="f-slug" class="fld" type="text" placeholder="my-essay" spellcheck="false">
-                                    <p class="fld-hint">Used for the post file name</p>
+                                    <span class="fld-hint">File name</span>
                                 </div>
                                 <div class="field">
-                                    <label>Cover image URL</label>
-                                    <input id="f-cover" class="fld" type="text" placeholder="https://… or posts/assets/x.jpg" spellcheck="false">
+                                    <label>Cover URL</label>
+                                    <input id="f-cover" class="fld" type="text" placeholder="https://… or posts/assets/…" spellcheck="false">
                                 </div>
                                 <div class="field">
-                                    <label>Cover alt text</label>
+                                    <label>Cover alt</label>
                                     <input id="f-coveralt" class="fld" type="text" placeholder="Describe the image" spellcheck="false">
                                 </div>
-                                <div class="field field--check">
+                                <label class="field field--check">
                                     <input id="f-featured" type="checkbox">
                                     <span>Feature on homepage</span>
-                                </div>
+                                </label>
                             </div>
                         </div>
 
-                        <div class="w-sep" aria-hidden="true"></div>
+                        <div class="w-rule" aria-hidden="true"></div>
+                        <textarea id="f-body" class="w-body" placeholder="Write in Markdown…
 
-                        <textarea id="f-body" class="w-body" placeholder="Write your essay in Markdown…
-    	
-## A section heading
+## Heading
 
-Some **bold** thoughts, *italics*, and `inline code`.
+Some **bold**, *italic*, `code`, [link](https://example.com).
 
 > A pull quote." spellcheck="true"></textarea>
 
-                        <div id="help" class="lb" role="dialog" aria-modal="true" aria-label="Markdown reference">
-                            <div class="lb-backdrop" data-close></div>
-                            <div class="lb-card">
-                                <button class="lb-close" data-close aria-label="Close">✕</button>
-                                <div class="lb-title"><i class="fa-solid fa-circle-question"></i> Markdown reference</div>
-                                <div class="help-row"><code class="help-syntax">## Heading</code><span class="help-desc">Section heading</span></div>
-                                <div class="help-row"><code class="help-syntax">**bold**</code><span class="help-desc">Bold</span></div>
-                                <div class="help-row"><code class="help-syntax">*italic*</code><span class="help-desc">Italic</span></div>
-                                <div class="help-row"><code class="help-syntax">&gt; quote</code><span class="help-desc">Pull quote</span></div>
-                                <div class="help-row"><code class="help-syntax">- list</code><span class="help-desc">Bullet list</span></div>
-                                <div class="help-row"><code class="help-syntax">[link](url)</code><span class="help-desc">Link</span></div>
-                                <div class="help-row"><code class="help-syntax">![img](url)</code><span class="help-desc">Image</span></div>
-                                <div class="help-row"><code class="help-syntax">```code```</code><span class="help-desc">Code</span></div>
+                        <div id="help" class="sheet" role="dialog" aria-modal="true" aria-label="Reference">
+                            <div class="sheet-backdrop" data-close></div>
+                            <div class="sheet-card">
+                                <div class="sheet-head">
+                                    <span><i class="fa-solid fa-book-open"></i> Markdown</span>
+                                    <button class="sheet-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                                <div class="help-grid">
+                                    <div class="help-row"><code>## Heading</code><span>H2 section</span></div>
+                                    <div class="help-row"><code>### Heading</code><span>H3 subsection</span></div>
+                                    <div class="help-row"><code>**bold**</code><span>Bold</span></div>
+                                    <div class="help-row"><code>*italic*</code><span>Italic</span></div>
+                                    <div class="help-row"><code>`code`</code><span>Inline code</span></div>
+                                    <div class="help-row"><code>``` code ```</code><span>Block</span></div>
+                                    <div class="help-row"><code>[text](url)</code><span>Link</span></div>
+                                    <div class="help-row"><code>![alt](url)</code><span>Image</span></div>
+                                    <div class="help-row"><code>&gt; quote</code><span>Quote</span></div>
+                                    <div class="help-row"><code>- item</code><span>List</span></div>
+                                </div>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="writer-foot">
+                        <span id="wordcount">0 words</span>
+                        <span class="dot-sep"></span>
+                        <span class="mono-hint">Markdown · GFM</span>
                     </div>
                 </div>
             </section>
@@ -161,58 +200,78 @@ Some **bold** thoughts, *italics*, and `inline code`.
             <div id="divider" class="divider" role="separator" aria-orientation="vertical" title="Drag to resize"></div>
 
             <section class="pane pane-preview">
-                <div class="pane-strip">
-                    <span class="pane-title"><i class="fa-solid fa-display"></i> Preview</span>
-                    <div class="seg" role="group" aria-label="Preview width">
-                        <button type="button" id="pv-desktop" class="seg-btn" title="Desktop width"><i class="fa-solid fa-desktop"></i></button>
-                        <button type="button" id="pv-tablet" class="seg-btn" title="Tablet width"><i class="fa-solid fa-tablet"></i></button>
-                        <button type="button" id="pv-phone" class="seg-btn" title="Phone width"><i class="fa-solid fa-mobile-screen"></i></button>
+                <div class="pane-bar">
+                    <span class="pane-label"><i class="fa-solid fa-display"></i> Preview</span>
+                    <div class="seg seg--sm" role="group" aria-label="Preview width">
+                        <button type="button" id="pv-desktop" class="seg-btn" title="Desktop"><i class="fa-solid fa-desktop"></i></button>
+                        <button type="button" id="pv-tablet" class="seg-btn" title="Tablet"><i class="fa-solid fa-tablet"></i></button>
+                        <button type="button" id="pv-phone" class="seg-btn" title="Phone"><i class="fa-solid fa-mobile-screen"></i></button>
                     </div>
-                    <span class="pane-meta"><b id="preview-time">—</b>&nbsp;<button id="btn-refresh" class="strip-btn" title="Rebuild preview"><i class="fa-solid fa-rotate"></i> Refresh</button></span>
                 </div>
                 <div id="preview-stage" class="preview-stage" data-width="desktop">
-                    <iframe id="frame" class="preview-frame" title="Live article preview"></iframe>
-                    <div id="preview-empty" class="preview-placeholder">
-                        <i class="fa-regular fa-face-smile" aria-hidden="true"></i>
-                        <span>Cozy in here. Write a title and something cute, and it'll show up.</span>
-                        <em>live preview · styled like the real site</em>
+                    <iframe id="frame" class="preview-frame" title="Preview"></iframe>
+                    <div id="preview-empty" class="preview-empty">
+                        <div class="empty-icon"><i class="fa-regular fa-file-lines"></i></div>
+                        <p>Start writing — preview appears here</p>
+                        <span>Live · styled like the published post</span>
                     </div>
                 </div>
             </section>
+        </div>
 
-        </main>
+        <aside class="inspector hidden" id="inspector">
+            <div class="in-head">Inspector</div>
+            <div class="in-section">
+                <div class="in-label">Document</div>
+                <div class="in-kv"><span>Status</span><b id="in-status">Unsaved</b></div>
+                <div class="in-kv"><span>Words</span><b id="in-words">0</b></div>
+                <div class="in-kv"><span>Slug</span><b id="in-slug">untitled</b></div>
+            </div>
+            <div class="in-section">
+                <div class="in-label">Export</div>
+                <button type="button" class="in-btn" data-act="html"><i class="fa-solid fa-code"></i> Copy HTML</button>
+                <button type="button" class="in-btn" data-act="entry"><i class="fa-solid fa-list"></i> Copy entry</button>
+                <button type="button" class="in-btn in-btn--primary" data-act="dl"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+            <div class="in-section in-section--muted">
+                <p>Writes to <code>docs/posts/</code>. Wire with <code>--apply</code> or paste the entry into <code>RT_POSTS</code>.</p>
+            </div>
+        </aside>
 
-        <footer class="statusbar">
-            <div class="status-group">
-                <span class="status-item"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i> <span id="wordcount">0 words</span></span>
-                <span class="status-bar" aria-hidden="true"></span>
-                <span class="status-item"><span id="status-chars">0 chars</span></span>
-                <span class="status-bar" aria-hidden="true"></span>
-                <span class="status-item"><span id="status-read">~0 min read</span></span>
-            </div>
-            <div class="status-group status-group--right">
-                <span class="status-item">draft · <b>posts/<span id="slug-preview">untitled</span>.html</b></span>
-                <span class="status-kbd"><kbd>Ctrl</kbd><span>+</span><kbd>K</kbd>&thinsp;commands</span>
-            </div>
-        </footer>
     </div>
 
-    <div id="palette" class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
-        <div class="palette-backdrop" data-pclose></div>
-        <div class="palette-card">
-            <i class="fa-solid fa-magnifying-glass palette-search" aria-hidden="true"></i>
-            <input id="palette-input" class="palette-input" placeholder="Search commands…" autocomplete="off" spellcheck="false">
-            <div id="palette-list" class="palette-list"></div>
-            <div class="palette-foot">
-                <span class="pf"><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
-                <span class="pf"><kbd>↵</kbd> run</span>
-                <span class="pf"><kbd>esc</kbd> close</span>
-            </div>
+    <footer class="statusbar">
+        <div class="status-left">
+            <span class="status-item"><i class="fa-regular fa-circle-dot"></i> Builder</span>
+            <span class="status-sep"></span>
+            <span class="status-item status-item--muted">posts/<span id="sb-slug">untitled</span>.html</span>
+        </div>
+        <div class="status-right">
+            <span class="status-kbd"><kbd>⌘</kbd><kbd>K</kbd> commands</span>
+            <span class="status-kbd"><kbd>⌘</kbd><kbd>S</kbd> save</span>
+        </div>
+    </footer>
+</div>
+
+<div id="palette" class="palette" role="dialog" aria-modal="true" aria-label="Commands">
+    <div class="palette-backdrop" data-pclose></div>
+    <div class="palette-card">
+        <div class="palette-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="palette-input" class="palette-input" placeholder="Type a command…" autocomplete="off" spellcheck="false">
+            <span class="palette-esc">ESC</span>
+        </div>
+        <div id="palette-list" class="palette-list"></div>
+        <div class="palette-foot">
+            <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+            <span><kbd>↵</kbd> run</span>
+            <span><kbd>ESC</kbd> close</span>
         </div>
     </div>
+</div>
 
-    <div id="toast" class="toast"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    <script src="editor.js"></script>
+<script src="editor.js"></script>
 </body>
 </html>
