@@ -31,9 +31,8 @@ jobs:
           mkdir -p _site
           cp -R docs/. _site/
           mkdir -p _site/Editor
-          cp -R Editor/index.html Editor/editor.js Editor/editor.css Editor/build.py _site/Editor/
-          rm -f _site/Editor/__pycache__/* 2>/dev/null || true
-          rm -rf _site/Editor/__pycache__ _site/Editor/unfinishedEdits
+          cp -R Editor/resources/. _site/Editor/
+          cp Editor/build.py _site/Editor/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
