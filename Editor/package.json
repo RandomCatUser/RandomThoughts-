@@ -1,0 +1,16 @@
+{
+  "name": "random-thoughts-builder",
+  "version": "1.2.0",
+  "private": true,
+  "description": "Random Thoughts Studio — Neutralinojs desktop editor (lighter than Electron, replaces the PyQt5 main.py launcher)",
+  "scripts": {
+    "start": "node sync-docs.js && neu run",
+    "dev": "node sync-docs.js && neu run",
+    "build": "node sync-docs.js && neu build",
+    "update": "neu update",
+    "sync": "node sync-docs.js"
+  },
+  "devDependencies": {
+    "@neutralinojs/neu": "^11.7.2"
+  }
+}

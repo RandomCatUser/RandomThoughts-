@@ -454,6 +454,27 @@ pre{margin:16px 0;overflow:auto;border-radius:10px}
 pre code{font-family:var(--font-mono);font-size:12.5px;line-height:1.6}
 code:not(pre code){font-family:var(--font-mono);font-size:12px;background:var(--surface-2);border:0.5px solid var(--line);padding:1px 5px;border-radius:5px;color:var(--text-2)}
 
+/* editor syntax highlight overlay (off by default) */
+.w-syntax{position:relative}
+.w-syntax-pre{
+  position:absolute;top:0;left:0;right:0;height:100%;margin:0;padding:0;
+  background:transparent;border:none;border-radius:0;
+  overflow:hidden;pointer-events:none;
+  white-space:pre-wrap;word-wrap:break-word;
+  font-family:var(--font-mono);font-size:13px;line-height:1.78;
+  color:var(--text-2);tab-size:2;
+  visibility:hidden;
+}
+.w-syntax.on .w-syntax-pre{visibility:visible}
+.w-syntax.on .w-body{color:transparent;caret-color:var(--text-2)}
+.w-syntax.on .w-body::selection{background:var(--surface-3)}
+.w-syntax-pre code,
+.w-syntax-pre .hljs,
+.w-syntax-pre .hljs code{
+  font-family:var(--font-mono);font-size:13px;line-height:1.78;
+  background:transparent;border:none;border-radius:0;padding:0!important;
+}
+
 /* divider */
 .divider{flex:0 0 1px;position:relative;cursor:col-resize;background:var(--line);transition:background .12s}
 .divider:hover,.divider.hot{background:var(--accent)}
@@ -657,6 +678,7 @@ html[data-theme="dark"] .palette-backdrop{background:rgba(17,17,27,0.56)}
 .adv-row input{accent-color:var(--accent);width:14px;height:14px}
 .adv-row span{flex:1}
 .adv-row em{font-style:normal;font-size:11px;color:var(--faint);font-family:var(--font-mono)}
+.adv-row i{width:16px;text-align:center;color:var(--muted);font-size:12px}
 .zen-exit:hover{color:var(--text);border-color:var(--accent);background:var(--surface-2)}
 
 /* library lightbox */

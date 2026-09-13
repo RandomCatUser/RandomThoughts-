@@ -6,3 +6,12 @@ drafts/
 *.tmp.md
 __pycache__/
 
+# Neutralinojs build artifacts
+node_modules/
+bin/
+dist/
+.tmp/
+neutralinojs.log
+.storage/
+.neustorage
+

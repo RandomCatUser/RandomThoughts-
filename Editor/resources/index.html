@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="vendor/font-awesome/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
@@ -79,11 +79,12 @@
                         <button type="button" data-adv="import-html"><i class="fa-solid fa-file-code"></i><span>Import HTML</span><em>.html</em></button>
                         <button type="button" data-adv="import-md"><i class="fa-brands fa-markdown"></i><span>Import Markdown</span><em>.md</em></button>
                         <button type="button" data-adv="focus"><i class="fa-solid fa-eye-slash"></i><span>Focus mode</span></button>
-                        <button type="button" data-adv="commands"><i class="fa-solid fa-command"></i><span>Commands</span><em>⌘K</em></button>
+                        <button type="button" data-adv="commands"><i class="fa-solid fa-keyboard"></i><span>Commands</span><em>⌘K</em></button>
                         <button type="button" data-adv="help"><i class="fa-solid fa-book-open"></i><span>Reference</span></button>
                         <div class="t-sep" style="height:0.5px; width:100%; margin:6px 0; background:var(--line)"></div>
-                        <label class="adv-row"><input type="checkbox" id="toggle-autosave"><span>Autosave</span><em>off</em></label>
-                        <div class="menu-foot">Autosave off by default — edits stack on the same file. Syntax highlighting is automatic.</div>
+                        <label class="adv-row"><i class="fa-solid fa-floppy-disk"></i><input type="checkbox" id="toggle-autosave"><span>Autosave</span><em>off</em></label>
+                        <label class="adv-row"><i class="fa-solid fa-highlighter"></i><input type="checkbox" id="toggle-syntax"><span>Syntax highlight</span><em id="syntax-toggle-state">off</em></label>
+                        <div class="menu-foot">Autosave off by default — edits stack on the same file. Syntax highlighting off by default — toggle in Tools.</div>
                     </div>
                 </div>
                 <!-- hidden triggers for JS -->
@@ -190,6 +191,7 @@
                         </div>
 
                         <div class="w-rule" aria-hidden="true"></div>
+                        <div class="w-syntax" id="syntax-wrap">
                         <textarea id="f-body" class="w-body" placeholder="Write in HTML…
 
 <h2>Heading</h2>
@@ -199,6 +201,8 @@
   <figcaption>Bottom text — credit or description (like in wheniflytowardsyou)</figcaption>
 </figure>
 <blockquote> A pull quote.</blockquote>" spellcheck="true"></textarea>
+                        <pre class="w-syntax-pre" id="syntax-highlight" aria-hidden="true"><code id="syntax-code" class="language-html"></code></pre>
+                        </div>
 
                         <div id="help" class="sheet" role="dialog" aria-modal="true" aria-label="Reference">
                             <div class="sheet-backdrop" data-close></div>

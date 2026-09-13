@@ -1,6 +1,6 @@
 (function(){
     "use strict";
-    var THEME_KEY="eb-theme",SPLIT_KEY="eb-split",DRAFT_KEY="eb-draft",DETAILS_KEY="eb-details",SIDEBAR_KEY="eb-sidebar",VIEW_KEY="eb-view",ZEN_KEY="eb-zen",INSP_KEY="eb-insp",LIB_KEY="eb-library",AUTOSAVE_KEY="eb-autosave";
+    var THEME_KEY="eb-theme",SPLIT_KEY="eb-split",DRAFT_KEY="eb-draft",DETAILS_KEY="eb-details",SIDEBAR_KEY="eb-sidebar",VIEW_KEY="eb-view",ZEN_KEY="eb-zen",INSP_KEY="eb-insp",LIB_KEY="eb-library",AUTOSAVE_KEY="eb-autosave",SYNTAX_KEY="eb-syntax";
     var HTML_MODE=true; // full HTML in editor from now on — no markdown
     var SITE="https://randomcatuser.github.io/RandomThoughts-";
     var AUTHOR={name:"Dihan Ramanayaka",photo:"https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true"};
@@ -298,6 +298,7 @@
         if(data.body!=null) el.body.value=data.body;
         slugTouched=true;
         autosize(el.body);
+        highlightEditor();
         render();
         saveDraft();
         toast("Imported "+(data.slug||data.title||"draft"));
@@ -538,6 +539,30 @@
         if(on) toast("Autosave on — edits save automatically");
         else toast("Autosave off — use Save manually");
     }
+    function isSyntaxOn(){ try{return localStorage.getItem(SYNTAX_KEY)==="1";}catch(e){return false;} }
+    function highlightEditor(){
+        var pre=document.getElementById("syntax-highlight"), code=document.getElementById("syntax-code");
+        if(!pre||!code) return;
+        if(!isSyntaxOn()){ code.textContent=""; return; }
+        var src=el.body.value;
+        code.textContent=src;
+        try{
+            if(window.hljs&&hljs.getLanguage&&hljs.getLanguage("html")){
+                code.innerHTML=hljs.highlight(src,{language:"html",ignoreIllegals:true}).value;
+            }
+        }catch(e){ code.textContent=src; }
+    }
+    function setSyntax(on,silent){
+        try{localStorage.setItem(SYNTAX_KEY,on?"1":"0");}catch(e){}
+        var wrap=document.getElementById("syntax-wrap");
+        if(wrap) wrap.classList.toggle("on",!!on);
+        var cb=document.getElementById("toggle-syntax");
+        if(cb) cb.checked=!!on;
+        var st=document.getElementById("syntax-toggle-state");
+        if(st) st.textContent=on?"on":"off";
+        highlightEditor();
+        if(!silent) toast(on?"Syntax highlighting on — colored tags in editor":"Syntax highlighting off");
+    }
     function scheduleSave(){
         // when autosave is off, just mark unsaved, don't write — user saves manually and edits stack on same file
         clearTimeout(_save);
@@ -711,7 +736,7 @@
     fields().forEach(function(k){el[k].addEventListener("input",function(){if(k==="title")slugTouched=false;scheduleMeta();schedulePreview();scheduleSave();});});
     el.slug.addEventListener("input",function(){slugTouched=true;el.slug.value=slugify(el.slug.value);schedulePreview();scheduleSave();refreshMeta();});
     el.featured.addEventListener("change",scheduleSave);
-    el.body.addEventListener("input",function(){autosize(el.body);schedulePreview();scheduleSave();});
+    el.body.addEventListener("input",function(){autosize(el.body);highlightEditor();schedulePreview();scheduleSave();});
     el.category.addEventListener("input",function(){refreshMeta();});
 
     function scheduleMeta(){refreshMeta();}
@@ -765,6 +790,11 @@
         if(tog){
             tog.checked=isAutosaveOn();
             tog.addEventListener("change",function(){ setAutosave(tog.checked); });
+        }
+        var syn=document.getElementById("toggle-syntax");
+        if(syn){
+            syn.checked=isSyntaxOn();
+            syn.addEventListener("change",function(){ setSyntax(syn.checked); });
         }
         // Adv tools (clean top bar overflow)
         var advBtns=document.querySelectorAll("#adv-menu [data-adv]");
@@ -873,7 +903,7 @@
     document.getElementById("btn-new").addEventListener("click",function(){
         if(!confirm("Start a new draft? This clears the current draft."))return;
         clearDraft();fields().forEach(function(k){el[k].value="";});
-        el.featured.checked=false;slugTouched=false;el.date.value=todayDisplay();el.body.value="";autosize(el.body);
+        el.featured.checked=false;slugTouched=false;el.date.value=todayDisplay();el.body.value="";autosize(el.body);highlightEditor();
         render();toast("New draft");
     });
     document.getElementById("btn-refresh").addEventListener("click",refreshPreview);
@@ -914,14 +944,14 @@
         var sel=v.slice(s,e)||placeholder||"";
         t.value=v.slice(0,s)+before+sel+after+v.slice(e);
         t.focus();t.setSelectionRange(s+before.length,s+before.length+sel.length);
-        autosize(t);schedulePreview();scheduleSave();refreshMeta();
+        autosize(t);highlightEditor();schedulePreview();scheduleSave();refreshMeta();
     }
     function insertLine(prefix){
         var t=el.body,s=t.selectionStart,v=t.value;
         var ls=v.lastIndexOf("\n",s-1)+1;
         t.value=v.slice(0,ls)+prefix+v.slice(ls);
         t.focus();t.setSelectionRange(ls+prefix.length,ls+prefix.length);
-        autosize(t);schedulePreview();scheduleSave();refreshMeta();
+        autosize(t);highlightEditor();schedulePreview();scheduleSave();refreshMeta();
     }
     var commands=[
         {id:"h2",g:"Insert",ic:"fa-solid fa-heading",label:"Heading 2",desc:"<h2>",match:["head","title"],run:function(){ if(HTML_MODE){ insertAtBody("<h2>","</h2>","heading"); } else insertLine("## "); }},
@@ -949,7 +979,8 @@
         {id:"copyhtml",g:"Actions",ic:"fa-solid fa-code",label:"Copy post HTML",desc:"export",run:function(){copyText(postHtml(),"HTML copied");}},
         {id:"copyentry",g:"Actions",ic:"fa-solid fa-list",label:"Copy index entry",desc:"export",run:function(){copyText(entryJs(),"Entry copied");}},
         {id:"download",g:"Actions",ic:"fa-solid fa-download",label:"Download post",desc:"export",run:function(){downloadPost();}},
-        {id:"blog",g:"Actions",ic:"fa-solid fa-arrow-up-right-from-square",label:"Open blog",desc:"docs",run:function(){window.location.href="../docs/index.html";}}
+        {id:"blog",g:"Actions",ic:"fa-solid fa-arrow-up-right-from-square",label:"Open blog",desc:"docs",run:function(){window.location.href="../docs/index.html";}},
+        {id:"syntax",g:"Actions",ic:"fa-solid fa-highlighter",label:"Toggle syntax highlight",desc:"editor overlay",match:["syntax","color","highlight"],run:function(){setSyntax(!isSyntaxOn());}}
     ];
     var commandsById={};
     commands.forEach(function(c){commandsById[c.id]=c;});
@@ -1106,5 +1137,6 @@
     slugTouched=restored;
     if(restored)pillStatus(true);
     autosize(el.body);
+    setSyntax(isSyntaxOn(),true);
     render();
 })();

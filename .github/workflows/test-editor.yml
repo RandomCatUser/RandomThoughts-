@@ -16,14 +16,14 @@ jobs:
           node-version: 20
 
       - name: Syntax check editor.js
-        run: node --check Editor/editor.js
+        run: node --check Editor/resources/editor.js
 
       - name: Verify editor DOM refs
         run: |
           node - <<'EOF'
           const fs = require("fs");
-          const html = fs.readFileSync("Editor/index.html", "utf8");
-          const js = fs.readFileSync("Editor/editor.js", "utf8");
+          const html = fs.readFileSync("Editor/resources/index.html", "utf8");
+          const js = fs.readFileSync("Editor/resources/editor.js", "utf8");
           const dynamic = new Set(["lib-empty-save", "btn-focus"]);
           const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map(m => m[1]));
           const refs = new Set([...js.matchAll(/getElementById\("([^"]+)"\)/g)].map(m => m[1]));
@@ -35,14 +35,24 @@ jobs:
           console.log("All " + refs.size + " getElementById refs resolve to index.html");
           EOF
 
+      - name: Validate Neutralino config
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('Editor/neutralino.config.json','utf8')); console.log('neutralino.config.json OK')"
+
+      - name: Install + build Neutralino app
+        run: |
+          cd Editor
+          npm ci --ignore-scripts
+          npx neu update
+          npx neu build
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      - name: Syntax check Python tools
+      - name: Syntax check Python build tool
         run: |
-          python -m py_compile Editor/build.py Editor/main.py
-          python Editor/main.py --help 2>&1 | head -1 || true
+          python -m py_compile Editor/build.py
 
   deploy-config:
     runs-on: ubuntu-latest
