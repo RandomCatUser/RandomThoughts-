@@ -9,17 +9,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="stylesheet" href="editor.css">
 </head>
 <body>
 <div class="window">
 
-    <div class="toolbar">
-        <div class="toolbar-group">
+    <div class="toolbar toolbar--clean">
+        <div class="toolbar-group toolbar-group--left">
+            <a class="toolbar-brand" href="#" title="Random Thoughts Studio"><span>Studio</span></a>
+            <span class="t-sep toolbar-brand-sep"></span>
             <button id="btn-new" class="tbtn" title="New draft"><i class="fa-solid fa-plus"></i><span>New</span></button>
-            <span class="t-sep" aria-hidden="true"></span>
-            <button id="btn-save" class="tbtn tbtn--primary" title="Save (⌘S)"><i class="fa-regular fa-floppy-disk"></i><span>Save</span></button>
+            <button id="btn-library" class="tbtn" title="Library — saved & drafts"><i class="fa-solid fa-layer-group"></i><span>Library</span></button>
+            <div class="menu-wrap">
+                <button id="btn-import" class="tbtn" title="Import HTML file"><i class="fa-solid fa-file-import"></i><span>Import</span><i class="fa-solid fa-chevron-down tbtn-caret"></i></button>
+                <div id="import-menu" class="menu menu--center">
+                    <div class="menu-head">Import HTML</div>
+                    <button type="button" data-import="html"><i class="fa-solid fa-file-code"></i><span>Import HTML file</span><em>.html</em></button>
+                    <div class="menu-foot">Opens a post <code>.html</code> file</div>
+                </div>
+            </div>
             <span id="pill" class="pill"><span id="pill-label">Unsaved</span></span>
             <span id="doc-title" hidden></span>
         </div>
@@ -32,24 +44,52 @@
             </div>
         </div>
 
-        <div class="toolbar-group">
-            <button id="btn-focus-toolbar" class="tbtn tbtn--subtle" title="Focus — hide distractions"><i class="fa-solid fa-eye-slash"></i><span>Focus</span></button>
-            <span class="t-sep" aria-hidden="true"></span>
-            <button id="btn-palette" class="tbtn tbtn--ghost" title="Commands (⌘K)"><i class="fa-solid fa-command"></i><span>Commands</span></button>
-            <button id="btn-help" class="tbtn tbtn--ghost" title="Reference"><i class="fa-solid fa-book-open"></i></button>
-            <span class="t-sep" aria-hidden="true"></span>
-            <button id="btn-sidebar" class="tbtn tbtn--ghost" title="Toggle navigator" aria-label="Toggle navigator"><i class="fa-solid fa-sidebar"></i></button>
-            <button id="th" class="tbtn tbtn--ghost" type="button" title="Appearance"><i class="fa-solid fa-circle-half-stroke"></i></button>
-            <span class="t-sep" aria-hidden="true"></span>
-            <div class="menu-wrap">
-                <button id="btn-export" class="tbtn tbtn--ghost"><i class="fa-solid fa-share-from-square"></i><span>Export</span><i class="fa-solid fa-chevron-down tbtn-caret"></i></button>
-                <div id="export-menu" class="menu">
-                    <div class="menu-head">Publish</div>
-                    <button type="button" data-act="html"><i class="fa-solid fa-code"></i><span>Copy post HTML</span><em>⌘⇧C</em></button>
-                    <button type="button" data-act="entry"><i class="fa-solid fa-list"></i><span>Copy index entry</span></button>
-                    <button type="button" data-act="dl"><i class="fa-solid fa-download"></i><span>Download .html</span></button>
-                    <div class="menu-foot">HTML goes to <code>docs/posts/</code> · Entry goes to <code>RT_POSTS</code>.</div>
+        <div class="toolbar-group toolbar-group--right">
+            <div class="menu-wrap menu-wrap--split">
+                <button id="btn-save" class="tbtn tbtn--primary" title="Save (⌘S)"><i class="fa-regular fa-floppy-disk"></i><span>Save</span></button>
+                <button id="btn-save-caret" class="tbtn tbtn--primary tbtn--caret" title="Save options"><i class="fa-solid fa-chevron-down tbtn-caret"></i></button>
+                <div id="save-menu" class="menu menu--center">
+                    <div class="menu-head">Save — versioned, no duplicates</div>
+                    <button type="button" data-save="draft"><i class="fa-regular fa-floppy-disk"></i><span>Save to browser</span><em>⌘S</em></button>
+                    <button type="button" data-save="unfinished"><i class="fa-solid fa-folder-open"></i><span>Save to unfinishedEdits</span><em>.html</em></button>
+                    <button type="button" data-save="html"><i class="fa-solid fa-code"></i><span>Download Full HTML</span><em>.html</em></button>
+                    <button type="button" data-save="draft-html"><i class="fa-solid fa-file-code"></i><span>Download Draft HTML</span><em>.html</em></button>
+                    <button type="button" data-save="entry"><i class="fa-solid fa-list"></i><span>Download entry JSON</span><em>.json</em></button>
+                    <button type="button" data-save="all"><i class="fa-solid fa-download"></i><span>Download all (post+draft)</span><em>2×.html</em></button>
+                    <div class="menu-foot">Edits update the same file — no duplicates. <code>unfinishedEdits/</code> is gitignored.</div>
                 </div>
+            </div>
+            <div class="toolbar-actions">
+                <button id="btn-sidebar" class="tbtn tbtn--ghost tbtn--icon" title="Navigator" aria-label="Navigator"><i class="fa-solid fa-table-columns"></i></button>
+                <button id="th" class="tbtn tbtn--ghost tbtn--icon" type="button" title="Appearance"><i class="fa-solid fa-circle-half-stroke"></i></button>
+                <div class="menu-wrap">
+                    <button id="btn-export" class="tbtn tbtn--ghost"><i class="fa-solid fa-share-from-square"></i><span>Export</span></button>
+                    <div id="export-menu" class="menu menu--center">
+                        <div class="menu-head">Publish</div>
+                        <button type="button" data-act="html"><i class="fa-solid fa-code"></i><span>Copy post HTML</span><em>⌘⇧C</em></button>
+                        <button type="button" data-act="entry"><i class="fa-solid fa-list"></i><span>Copy index entry</span></button>
+                        <button type="button" data-act="dl"><i class="fa-solid fa-download"></i><span>Download .html</span></button>
+                        <div class="menu-foot">HTML → <code>docs/posts/</code> · Entry → <code>RT_POSTS</code>.</div>
+                    </div>
+                </div>
+                <div class="menu-wrap">
+                    <button id="btn-adv" class="tbtn tbtn--ghost tbtn--icon" title="More — import, focus, syntax" aria-label="More"><i class="fa-solid fa-ellipsis"></i></button>
+                    <div id="adv-menu" class="menu menu--center" style="min-width:260px">
+                        <div class="menu-head">Tools</div>
+                        <button type="button" data-adv="import-html"><i class="fa-solid fa-file-code"></i><span>Import HTML</span><em>.html</em></button>
+                        <button type="button" data-adv="import-md"><i class="fa-brands fa-markdown"></i><span>Import Markdown</span><em>.md</em></button>
+                        <button type="button" data-adv="focus"><i class="fa-solid fa-eye-slash"></i><span>Focus mode</span></button>
+                        <button type="button" data-adv="commands"><i class="fa-solid fa-command"></i><span>Commands</span><em>⌘K</em></button>
+                        <button type="button" data-adv="help"><i class="fa-solid fa-book-open"></i><span>Reference</span></button>
+                        <div class="t-sep" style="height:0.5px; width:100%; margin:6px 0; background:var(--line)"></div>
+                        <label class="adv-row"><input type="checkbox" id="toggle-autosave"><span>Autosave</span><em>off</em></label>
+                        <div class="menu-foot">Autosave off by default — edits stack on the same file. Syntax highlighting is automatic.</div>
+                    </div>
+                </div>
+                <!-- hidden triggers for JS -->
+                <button id="btn-palette" hidden></button>
+                <button id="btn-help" hidden></button>
+                <button id="btn-focus-toolbar" hidden></button>
             </div>
         </div>
     </div>
@@ -142,14 +182,6 @@
                                     <input id="f-slug" class="fld" type="text" placeholder="my-essay" spellcheck="false">
                                     <span class="fld-hint">File name</span>
                                 </div>
-                                <div class="field">
-                                    <label>Cover URL</label>
-                                    <input id="f-cover" class="fld" type="text" placeholder="https://… or posts/assets/…" spellcheck="false">
-                                </div>
-                                <div class="field">
-                                    <label>Cover alt</label>
-                                    <input id="f-coveralt" class="fld" type="text" placeholder="Describe the image" spellcheck="false">
-                                </div>
                                 <label class="field field--check">
                                     <input id="f-featured" type="checkbox">
                                     <span>Feature on homepage</span>
@@ -158,13 +190,15 @@
                         </div>
 
                         <div class="w-rule" aria-hidden="true"></div>
-                        <textarea id="f-body" class="w-body" placeholder="Write in Markdown…
+                        <textarea id="f-body" class="w-body" placeholder="Write in HTML…
 
-## Heading
-
-Some **bold**, *italic*, `code`, [link](https://example.com).
-
-> A pull quote." spellcheck="true"></textarea>
+<h2>Heading</h2>
+<p>Some <strong>bold</strong>, <em>italic</em>, <code>code</code>, <a href=&quot;https://example.com&quot;>link</a>.</p>
+<figure>
+  <img src=&quot;https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1400&auto=format&fit=crop&quot; alt=&quot;Coding on monitors&quot;>
+  <figcaption>Bottom text — credit or description (like in wheniflytowardsyou)</figcaption>
+</figure>
+<blockquote> A pull quote.</blockquote>" spellcheck="true"></textarea>
 
                         <div id="help" class="sheet" role="dialog" aria-modal="true" aria-label="Reference">
                             <div class="sheet-backdrop" data-close></div>
@@ -174,16 +208,16 @@ Some **bold**, *italic*, `code`, [link](https://example.com).
                                     <button class="sheet-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                                 </div>
                                 <div class="help-grid">
-                                    <div class="help-row"><code>## Heading</code><span>H2 section</span></div>
-                                    <div class="help-row"><code>### Heading</code><span>H3 subsection</span></div>
-                                    <div class="help-row"><code>**bold**</code><span>Bold</span></div>
-                                    <div class="help-row"><code>*italic*</code><span>Italic</span></div>
-                                    <div class="help-row"><code>`code`</code><span>Inline code</span></div>
-                                    <div class="help-row"><code>``` code ```</code><span>Block</span></div>
-                                    <div class="help-row"><code>[text](url)</code><span>Link</span></div>
-                                    <div class="help-row"><code>![alt](url)</code><span>Image</span></div>
-                                    <div class="help-row"><code>&gt; quote</code><span>Quote</span></div>
-                                    <div class="help-row"><code>- item</code><span>List</span></div>
+                                    <div class="help-row"><code>&lt;h2&gt;Heading&lt;/h2&gt;</code><span>H2 section</span></div>
+                                    <div class="help-row"><code>&lt;h3&gt;Heading&lt;/h3&gt;</code><span>H3 subsection</span></div>
+                                    <div class="help-row"><code>&lt;strong&gt;bold&lt;/strong&gt;</code><span>Bold</span></div>
+                                    <div class="help-row"><code>&lt;em&gt;italic&lt;/em&gt;</code><span>Italic</span></div>
+                                    <div class="help-row"><code>&lt;code&gt;code&lt;/code&gt;</code><span>Inline code</span></div>
+                                    <div class="help-row"><code>&lt;pre&gt;&lt;code&gt;code&lt;/code&gt;&lt;/pre&gt;</code><span>Block</span></div>
+                                    <div class="help-row"><code>&lt;a href="url"&gt;text&lt;/a&gt;</code><span>Link</span></div>
+                                    <div class="help-row"><code>&lt;img src="url" alt="alt"&gt;</code><span>Image — use for Unsplash</span></div>
+                                    <div class="help-row"><code>&lt;blockquote&gt;quote&lt;/blockquote&gt;</code><span>Quote</span></div>
+                                    <div class="help-row"><code>&lt;ul&gt;&lt;li&gt;item&lt;/li&gt;&lt;/ul&gt;</code><span>List</span></div>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +226,7 @@ Some **bold**, *italic*, `code`, [link](https://example.com).
                     <div class="writer-foot">
                         <span id="wordcount">0 words</span>
                         <span class="dot-sep"></span>
-                        <span class="mono-hint">Markdown · GFM</span>
+                        <span class="mono-hint">HTML · full</span>
                     </div>
                 </div>
             </section>
@@ -266,6 +300,38 @@ Some **bold**, *italic*, `code`, [link](https://example.com).
             <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
             <span><kbd>↵</kbd> run</span>
             <span><kbd>ESC</kbd> close</span>
+        </div>
+    </div>
+</div>
+
+<input type="file" id="import-html-input" accept=".html,.htm,text/html" hidden>
+<input type="file" id="import-md-input" accept=".md,.markdown,.txt,text/markdown" hidden>
+
+<div id="library" class="library" role="dialog" aria-modal="true" aria-label="Library">
+    <div class="library-backdrop" data-libclose></div>
+    <div class="library-card">
+        <div class="library-head">
+            <div class="lib-head-left">
+                <span class="lib-title"><i class="fa-solid fa-layer-group"></i> Library</span>
+                <span class="lib-sub">Browser saved → <code>Editor/unfinishedEdits/</code> (gitignored) · Custom</span>
+            </div>
+            <div class="lib-head-right">
+                <button class="sheet-close" data-libclose aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+        <div class="seg lib-tabs" role="tablist" aria-label="Library sections">
+            <button type="button" class="seg-btn active" data-libtab="browser" role="tab" aria-selected="true"><i class="fa-solid fa-floppy-disk"></i> Browser saved</button>
+            <button type="button" class="seg-btn" data-libtab="custom" role="tab" aria-selected="false"><i class="fa-solid fa-star"></i> Custom</button>
+            <button type="button" class="seg-btn" data-libtab="all" role="tab" aria-selected="false"><i class="fa-solid fa-layer-group"></i> All</button>
+        </div>
+        <div class="lib-toolbar">
+            <div class="lib-search"><i class="fa-solid fa-magnifying-glass"></i><input id="lib-search" class="lib-search-input" placeholder="Search drafts…" autocomplete="off" spellcheck="false"></div>
+            <button id="lib-save-current" class="tbtn tbtn--primary"><i class="fa-solid fa-plus"></i> Save current</button>
+        </div>
+        <div id="lib-list" class="lib-list"></div>
+        <div class="lib-foot">
+            <span id="lib-count" class="lib-count"></span>
+            <button id="lib-clear" class="tbtn tbtn--ghost"><i class="fa-solid fa-trash"></i> Clear tab</button>
         </div>
     </div>
 </div>

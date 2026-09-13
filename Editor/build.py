@@ -19,8 +19,6 @@ Draft format (front matter between --- lines, body is Markdown):
     description: Shown on cards and in search.
     date: Sep 5, 2026
     tags: Tech, Life
-    cover: posts/assets/cover.jpg
-    coverAlt: Describe the image
     featured: false
     slug: a-quiet-essay
     ---
@@ -32,6 +30,18 @@ Draft format (front matter between --- lines, body is Markdown):
     > The pull quote worth highlighting.
 
 Only Python's standard library is required.
+
+Images:
+    Markdown `![alt](https://images.unsplash.com/...)` works, but for Unsplash
+    and other hosts that fail in markdown render, use raw HTML instead:
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1400&auto=format&fit=crop" alt="Coding on monitors">
+    The builder preserves raw HTML blocks (single-line <img ...>) and adds
+    lazy/referrer attributes.
+
+Draft storage:
+    Browser saves are mirrored in Editor/unfinishedEdits/ (and ./unfinishedEdits/)
+    — gitignored per .gitignore. Move a finished .md from there to build via
+    python build.py Editor/unfinishedEdits/<slug>.md --apply
 """
 
 import argparse
@@ -114,17 +124,86 @@ def inline(text):
     return text
 
 
+def dedent_common(text):
+    """Smart dedent for centered/pasted markdown — removes common leading indent that would otherwise make everything a code block."""
+    lines = text.splitlines()
+    indents = []
+    for l in lines:
+        if not l.strip() or l.strip().startswith("```"):
+            continue
+        m = re.match(r"^([ \t]*)", l)
+        if m:
+            ind = len(m.group(1).replace("\t", "    "))
+            # only consider indented prose (2+ spaces)
+            if ind >= 2:
+                indents.append(ind)
+    if not indents:
+        return text
+    min_ind = min(indents)
+    # if most lines are indented like the pasted sample (8 spaces), strip it
+    if min_ind >= 2 and len([x for x in indents if x >= min_ind]) >= len(lines)//2:
+        ded = min(min_ind, 8)
+        out = []
+        for l in lines:
+            if not l.strip() or l.strip().startswith("```"):
+                out.append(l)
+            else:
+                c, idx = 0, 0
+                while idx < len(l) and c < ded:
+                    if l[idx] == " ":
+                        c += 1; idx += 1
+                    elif l[idx] == "\t":
+                        c += 4; idx += 1
+                    else:
+                        break
+                out.append(l[idx:])
+        return "\n".join(out)
+    return text
+
+def smart_heading_heuristic(lines):
+    """Promotes centered short plain lines that look like headings to ## headings.
+    Fixes pasted HTML where headings lost their ## markers and were centered."""
+    res = []
+    for i, l in enumerate(lines):
+        stripped = l.strip()
+        # already a markdown heading / list / quote / image / html / code
+        if not stripped or stripped.startswith(("#", "-", "*", ">", "```", "!", "<", "`")):
+            res.append(l)
+            continue
+        # short, Title-ish line surrounded by blanks/short context
+        prev = lines[i-1].strip() if i>0 else ""
+        nxt = lines[i+1].strip() if i+1 < len(lines) else ""
+        words = stripped.split()
+        # heuristic: 2-8 words, <70 chars, no period, capitalized, and next line is longer paragraph or image
+        if 2 <= len(words) <= 8 and len(stripped) < 70 and "." not in stripped and stripped[0].isupper() and (not prev or len(prev) < 2) and nxt and len(nxt) > 40:
+            # also check it looks like a title (not a sentence)
+            res.append("## " + stripped)
+        else:
+            res.append(l)
+    return res
+
+
 def render_blocks(lines):
     out = []
     i, n = 0, len(lines)
 
     def paragraph(acc):
+        # acc already dedented and heading-fixed
         inner = "</p>\n<p>".join(inline(l.strip()) for l in acc if l.strip())
         return "<p>" + inner + "</p>"
 
     while i < n:
         line = lines[i]
         if not line.strip():
+            i += 1
+            continue
+
+        # raw HTML passthrough — full HTML mode: any line that looks like HTML should not be escaped
+        stripped = line.strip()
+        if stripped.startswith("<") and ">" in stripped:
+            # single-line HTML block e.g. <h2>...</h2>, <p>...</p>, <img src="...">, <blockquote>...</blockquote>
+            # also handles <h2>Entering a Digital Universe</h2> which previous regex missed
+            out.append(stripped)
             i += 1
             continue
 
@@ -138,10 +217,18 @@ def render_blocks(lines):
             out.append("<pre><code>" + html.escape("\n".join(block)) + "</code></pre>")
             continue
 
-        m = re.match(r"^(#{1,3})\s+", line)
+        # standalone markdown image — treat as block image even when centered/indented
+        if re.match(r"^\s*!\[([^\]]*)\]\([^\)]+\)\s*$", line):
+            striped = stripped
+            # inline will convert to <img>
+            out.append(inline(striped))
+            i += 1
+            continue
+
+        m = re.match(r"^\s*#{1,3}\s+", line)
         if m:
-            level = len(m.group(1))
-            text = inline(re.sub(r"^#+\s*", "", line).strip())
+            level = len(re.match(r"^\s*(#+)", line).group(1))
+            text = inline(re.sub(r"^\s*#+\s*", "", line).strip())
             out.append("<h%d>%s</h%d>" % (level, text, level))
             i += 1
             continue
@@ -176,10 +263,12 @@ def render_blocks(lines):
             continue
 
         acc = []
-        while i < n and lines[i].strip() and not re.match(r"^#{1,3}\s+", lines[i]) \
+        while i < n and lines[i].strip() and not re.match(r"^\s*#{1,3}\s+", lines[i]) \
                 and not lines[i].strip().startswith(("```", ">")) \
                 and not re.match(r"^\s*[-*]\s+", lines[i]) \
-                and not re.match(r"^\s*\d+\.\s+", lines[i]):
+                and not re.match(r"^\s*\d+\.\s+", lines[i]) \
+                and not re.match(r"^\s*!\[", lines[i]) \
+                and not ("<img" in lines[i]):
             acc.append(lines[i])
             i += 1
         out.append(paragraph(acc))
@@ -189,6 +278,11 @@ def render_blocks(lines):
 
 def decorate_body(md):
     """Mirror the web editor: add the blog's Tailwind/rt-* classes."""
+    # smart handling for centered/pasted markdown — dedent + promote plain centered titles
+    md = dedent_common(md)
+    _lines = md.splitlines()
+    _lines = smart_heading_heuristic(_lines)
+    md = "\n".join(_lines)
     html_body = render_blocks(md.splitlines())
     html_body = re.sub(r"<blockquote>",
                        '<blockquote class="border-l-4 rt-quote pl-6 py-2 my-8 text-2xl font-serif italic">',
@@ -202,9 +296,21 @@ def decorate_body(md):
     html_body = re.sub(r"<h3>",
                        '<h3 class="rt-body-title text-3xl font-bold mt-12 mb-4 tracking-tight">',
                        html_body)
-    html_body = re.sub(r"<img ",
-                       '<img class="w-full object-cover rounded-2xl my-10" ',
-                       html_body)
+    # HTML images (including raw <img src="https://images.unsplash.com/...">) get responsive classes + lazy/referrer handling
+    def _img_repl(m):
+        tag = m.group(0)
+        # avoid duplicating if already has attributes
+        if "loading=" not in tag:
+            tag = tag.replace("<img ", '<img loading="lazy" decoding="async" referrerpolicy="no-referrer" ')
+        if 'class="' not in tag:
+            tag = tag.replace("<img ", '<img class="w-full object-cover rounded-2xl my-10" ')
+        else:
+            # ensure rounded/style is present even if class exists
+            tag = tag.replace('class="', 'class="w-full object-cover rounded-2xl my-10 ')
+        if "onerror=" not in tag:
+            tag = tag.replace("<img ", '<img onerror="this.onerror=null;this.style.opacity=\'0.6\'" ')
+        return tag
+    html_body = re.sub(r"<img\b[^>]*>", _img_repl, html_body)
     return html_body
 
 
@@ -214,8 +320,6 @@ def build_post(meta, body_text):
     date_display = (meta.get("date") or today_display()).strip()
     iso = display_to_iso(date_display)
     description = meta.get("description", "").strip()
-    cover = meta.get("cover", "").strip()
-    cover_alt = (meta.get("coveralt") or title).strip()
     tags = [t.strip() for t in meta.get("tags", "").split(",") if t.strip()]
     featured = as_bool(meta.get("featured"))
     category = meta.get("category", "").strip()
@@ -223,11 +327,6 @@ def build_post(meta, body_text):
     canonical = "%s/posts/%s.html" % (SITE, slug)
 
     body = decorate_body(body_text)
-    cover_img = (
-        '<img src="%s" alt="%s" class="w-full aspect-video object-cover rounded-2xl mb-12">'
-        % (esc(cover), esc(cover_alt))
-        if cover else ""
-    )
     cat_html = (
         '<span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">%s</span>'
         % esc(category)
@@ -256,13 +355,11 @@ def build_post(meta, body_text):
         '    <meta property="og:title" content="%s | Random Thoughts Digest">' % esc(title),
         '    <meta property="og:description" content="%s">' % esc(description),
         '    <meta property="og:url" content="%s">' % canonical,
-        '    <meta property="og:image" content="%s">' % esc(cover),
         '    <meta property="article:published_time" content="%s">' % iso,
         "",
         '    <meta name="twitter:card" content="summary">',
         '    <meta name="twitter:title" content="%s | Random Thoughts Digest">' % esc(title),
         '    <meta name="twitter:description" content="%s">' % esc(description),
-        '    <meta name="twitter:image" content="%s">' % esc(cover),
         '    <script src="https://cdn.tailwindcss.com"></script>',
         "",
         '    <link rel="preconnect" href="https://fonts.googleapis.com">',
@@ -290,10 +387,6 @@ def build_post(meta, body_text):
     head += [
         "        </header>",
         "",
-    ]
-    if cover_img:
-        head.append("        " + cover_img)
-    head += [
         indented,
         "",
         '        <footer class="mt-20 pt-10 border-t rt-foot text-sm">',
@@ -316,8 +409,6 @@ def build_post(meta, body_text):
 def build_entry(meta, slug, tags):
     title = meta.get("title", "Untitled").strip()
     description = meta.get("description", "").strip()
-    cover = meta.get("cover", "").strip()
-    cover_alt = (meta.get("coveralt") or title).strip()
     date_display = (meta.get("date") or today_display()).strip()
     featured = "true" if as_bool(meta.get("featured")) else "false"
     tag_list = ", ".join('"%s"' % t.replace('"', "") for t in tags)
@@ -328,8 +419,6 @@ def build_entry(meta, slug, tags):
         "        id: \"%s\",\n"
         "        title: \"%s\",\n"
         "        description: \"%s\",\n"
-        "        cover: \"%s\",\n"
-        "        coverAlt: \"%s\",\n"
         "        tags: [%s],\n"
         "        date: \"%s\",\n"
         "        url: \"posts/%s.html\",\n"
@@ -340,7 +429,7 @@ def build_entry(meta, slug, tags):
         "    },\n"
     ) % (
         slug.replace('"', ""), title.replace('"', ""), description.replace('"', ""),
-        cover.replace('"', ""), cover_alt.replace('"', ""), tag_list, date_display,
+        tag_list, date_display,
         slug.replace('"', ""), featured, AUTHOR_NAME, AUTHOR_PHOTO,
     )
 

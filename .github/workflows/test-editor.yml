@@ -1,0 +1,53 @@
+name: Test editor
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  editor-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax check editor.js
+        run: node --check Editor/editor.js
+
+      - name: Verify editor DOM refs
+        run: |
+          node - <<'EOF'
+          const fs = require("fs");
+          const html = fs.readFileSync("Editor/index.html", "utf8");
+          const js = fs.readFileSync("Editor/editor.js", "utf8");
+          const dynamic = new Set(["lib-empty-save", "btn-focus"]);
+          const ids = new Set([...html.matchAll(/id="([^"]+)"/g)].map(m => m[1]));
+          const refs = new Set([...js.matchAll(/getElementById\("([^"]+)"\)/g)].map(m => m[1]));
+          const missing = [...refs].filter(r => !ids.has(r) && !dynamic.has(r));
+          if (missing.length) {
+            console.error("Missing ids: " + missing.join(", "));
+            process.exit(1);
+          }
+          console.log("All " + refs.size + " getElementById refs resolve to index.html");
+          EOF
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Syntax check Python tools
+        run: |
+          python -m py_compile Editor/build.py Editor/main.py
+          python Editor/main.py --help 2>&1 | head -1 || true
+
+  deploy-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate workflow YAML
+        run: |
+          python -c "import yaml,glob,os; [yaml.safe_load(open(f)) for f in glob.glob('.github/workflows/*.yml')]; print('workflow YAML OK')"

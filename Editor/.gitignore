@@ -1,0 +1,8 @@
+# editor drafts — not pushed
+Editor/unfinishedEdits/
+unfinishedEdits/
+Editor/drafts/
+drafts/
+*.tmp.md
+__pycache__/
+
