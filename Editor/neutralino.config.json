@@ -1,6 +1,6 @@
 {
   "applicationId": "cat.randomthoughts.builder",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "applicationName": "Random Thoughts Studio",
   "description": "Article builder for Random Thoughts — desktop editor in a native webview",
   "author": "Dihan Ramanayaka",
