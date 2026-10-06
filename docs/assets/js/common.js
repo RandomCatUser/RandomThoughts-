@@ -21,7 +21,7 @@
             id: "yuyubecomesopensource",
             title: "Yuyu Becomes Open-Source",
             description: "A thoughtful look at how a small creative idea can grow into something open, collaborative, and unexpectedly meaningful.",
-            cover: "./posts/assets/yuyu.png",
+            cover: "./posts/assets/yuyuopen.png",
             coverAlt: "Yuyu title art and cozy visual style",
             tags: ["AI Chatbot", "Projects"],
             date: "October 06, 2026",
