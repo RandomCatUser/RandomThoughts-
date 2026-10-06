@@ -18,6 +18,20 @@
     /* post index — single source of truth for search and cards */
     window.RT_POSTS = [
         {
+            id: "yuyubecomesopensource",
+            title: "Yuyu Becomes Open-Source",
+            description: "A thoughtful look at how a small creative idea can grow into something open, collaborative, and unexpectedly meaningful.",
+            cover: "./posts/assets/yuyu.png",
+            coverAlt: "Yuyu title art and cozy visual style",
+            tags: ["AI Chatbot", "Projects"],
+            date: "October 06, 2026",
+            url: "posts/yuyu.html",
+            featured: true,
+            contributors: [
+                { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
+            ]
+        },
+        {
             id: "wheniflytowardsyou",
             title: "When I Fly Towards You",
             description: "A heartfelt reflection on the warmth, chemistry, and emotional comfort of one of the best youth romances I've ever watched.",
@@ -26,7 +40,7 @@
             tags: ["Drama"],
             date: "Aug 31, 2026",
             url: "posts/wheniflytowardsyou.html",
-            featured: true,
+            featured: false,
             contributors: [
                 { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }
             ]
@@ -109,7 +123,7 @@
             coverAlt: "Why Sri Lankan education system feels broken",
             tags: ["Education"],
             date: "May 25, 2026",
-            url: "posts/WhySrilankanEducationSystemSucks.html",
+            url: "posts/WhySrilankanEducationSystemSucks.html", /* needs some changes */
             featured: false,
             contributors: [
                 { name: "Dihan Ramanayaka", photo: "https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true" }

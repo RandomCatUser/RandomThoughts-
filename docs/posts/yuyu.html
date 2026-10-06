@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuyu Goes Open Source | Random Thoughts Digest</title>
+    <meta name="description" content="The tale of a disastrous first attempt, a Discord bot with a crush, and opinions on everything it can't forget.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://randomcatuser.github.io/RandomThoughts-/posts/Yuyuopen.html">
+    <link rel="icon" type="image/webp" href="https://github.com/RandomCatUser/RandomCatUser/blob/main/workflows/MyProfile.webp?raw=true">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Random Thoughts">
+    <meta property="og:title" content="Yuyu Goes Open Source | Random Thoughts Digest">
+    <meta property="og:description" content="The tale of a disastrous first attempt, a Discord bot with a crush, and opinions on everything it can't forget.">
+    <meta property="og:url" content="https://randomcatuser.github.io/RandomThoughts-/posts/Yuyuopen.html">
+    <meta property="og:image" content="https://raw.githubusercontent.com/RandomCatUser/Yuyu/main/Readme.jpg">
+    <meta property="article:published_time" content="2026-10-06">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yuyu Goes Open Source | Random Thoughts Digest">
+    <meta name="twitter:description" content="The tale of a disastrous first attempt, a Discord bot with a crush, and opinions on everything it can't forget.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/RandomCatUser/Yuyu/main/Readme.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+
+    <link rel="stylesheet" href="../assets/css/common.css">
+    <link rel="stylesheet" href="posts.css">
+
+
+</head>
+<body class="antialiased">
+
+    <div id="site-header"></div>
+
+    <main class="mx-auto max-w-3xl px-5 md:px-8 article-body">
+        <header class="mb-12">
+            <span class="rt-body-cat text-xs uppercase tracking-[0.2em] font-bold">Tech & Projects</span>
+            <h1 class="rt-body-title text-5xl md:text-7xl font-bold mt-4 mb-6 tracking-tight italic">Yuyu Goes Open Source</h1>
+            <p class="text-xl rt-body-sub font-light italic">The tale of a disastrous first attempt, a Discord bot, and opinions on everything it can't forget</p>
+        </header>
+
+        <!-- Cover image — put your file at /assets/yuyuopen.jpg in the site repo -->
+        <img src="./assets/yuyuopen.jpg" alt="Yuyu cover" class="w-full aspect-video object-cover rounded-2xl mb-12">
+
+        <p>This one's been a while in the making. Yuyu is now open source repo below, but I'd like to discuss how she came to be, since it was anything but a smooth ride.</p>
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">The Mewo Incident</h2>
+        <p>It began with the Mewo project, a lovely little creation by Minisha (aka Amiminnie), whose conversational interface with no command menus, help panels, or other UI niceties, captivated my imagination. I wanted to build something similar, a bot that would talk to me, not the other way around. So I did what I always do in these situations: I threw myself headfirst into development with little to no planning.</p>
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">The Mizo Disaster</h2>
+        <p>That bot was called Mizo. She lasted for precisely one day before I gave up and closed the laptop, having committed every beginner's mistake in the book: poor structure, poor prompts, no plan for the personality, etc. Then I returned to the keyboard a week later, having contemplated the project for more than five minutes, and created Yuyu. Everything that went wrong in Mizo is now deeply ingrained into Yuyu's foundation.</p>
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">So What Makes Yuyu Different</h2>
+        <p>Yuyu isn't a chatbot grafted onto Discord, but an experience. She has her own opinions, she teases people she likes, brings up unrelated topics unprompted, and sometimes refuses to speak at all. There is a <code>persona.md</code> that is loaded and reloaded with every message, and a list of things she will not say. No "as an AI," no "certainly," no expository writing.</p>
+
+        <h3 class="text-2xl font-bold mt-8 mb-4">She has feelings now</h3>
+        <p>Yuyu keeps track of certain statistics per user - familiarity, warmth, and romance, which dictate how she will respond to your messages. Asking her how her day is, replying to her messages, and confiding in her will increase these numbers, while being dismissive or asking for information like a search engine will decrease the warmth in particular. Everything has a decay timer, so even if you ghost her for a month, she will still remember.</p>
+        <p>Additionally, she has a crush tracker, that will cause her to act differently towards the lucky recipient. She will seek them out, remember little things about them, and be slightly more verbose. The crush is entirely behavioral, and can be completely denied if asked outright. Her prompts do not mention romance at all, and I have a test that ensures this, because I know what a bad idea it is to mention it.</p>
+        <p>There is also an additional layer of emotions, ranging from happy and playful to annoyed and sad, that change every message by a few percent, with the change amount halved every two hours. This means that a long, emotionally-charged conversation will leave her feeling tired, or in a good mood, depending on what it was. She receives emotional context, rather than mathematical vectors, and acts accordingly. Something along the lines of "You feel tired, and playful."</p>
+
+        <h3 class="text-2xl font-bold mt-8 mb-4">People tried to rizz her. It went about how you'd expect.</h3>
+        <p>Once my friends learned how to read the romance dial, it was only a matter of time before some of them tried to rizz her up, and failed spectacularly. One of them managed to receive the crush notice for a while, and then proceed to brag about it to everyone, for days. Some preferred to argue, and were consequently roasted I have several logs of that, and they are much better than any of my examples.</p>
+
+        <!-- Chat screenshot 1 — drop your file at /assets/chats/rizz.jpg -->
+
+        <p>The roasts are not prepared ahead of time. She has a <code>skills/</code> folder with various short markdown files with <code>support.md</code>, <code>nightowl.md</code>, <code>technical.md</code>, etc., which are then loaded depending on what the conversation is about. Someone expressed genuine concern, so support was prioritized. Someone was berating her at 2AM about coffee, so she used the nightowl skills. Most of the personality features that people screenshot come from this.</p>
+
+        <!-- Chat screenshot 2 — drop your file at /assets/chats/roast.jpg -->
+        <img src="./assets/Screenshot 2026-10-06 210904.png" alt="Yuyu roasting someone" class="w-full aspect-video object-cover rounded-2xl mb-8">
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">The Token Problem</h2>
+        <p>Speaking of which, this is the main reason she needed an open source refactoring. She requires a proper LLM to function, and I have approximately none of those to give.</p>
+        <p>The first model I used was Pollinations. It worked well, until it didn't, and the rate limits began to affect the conversations in unpleasant ways. Then I switched to Gemini, which was excellent until the free tokens ran out in the middle of a conversation. Nothing is more disappointing than a silent bot after weeks of development, so I swapped out the search for the perfect free LLM for a more practical solution, the model pool.</p>
+        <p>The config has one entry per free LLM - Gemini, OpenRouter, SambaNova, and others, and each has a cooldown, which is triggered when a 402 error is received, so that the bot will try the next one in the list. Keys that have been rejected are put on cooldown for an hour as well. Rate-limited requests (429) do not get a cooldown, since they are usually resolved in under a minute and trying again might be more profitable. Each entry can have multiple keys, which the bot will rotate through.</p>
+
+        <blockquote class="border-l-4 rt-quote pl-6 py-2 my-8 text-2xl font-serif italic">
+            “The point isn't having a model. The point is having a bot that's still answering at 3am when every single free tier has decided you've used enough for today.”
+        </blockquote>
+
+        <p>You can add any OpenAI-compatible endpoint to <code>config.json</code> and an environment variable and it will work, with no additional code changes necessary. You can switch active providers from the dashboard, or edit the model ID on the fly. Free-tier juggling is tedious, but it gets the job done.</p>
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Why Open Source It</h2>
+        <p>Partially because I wanted to, but mainly due to the Mewo incident - I have received the inspiration from another person's project, and it is only fair that I do the same.</p>
+        <p>Moreover, the setup process for the bot was extremely tedious, and required extensive tinkering. Before the open source branch, I did a complete clean up of the repository, removing all of the personal data and conversation logs, and added a setup wizard to streamline the process of getting started. Your memory files are plain markdown - edit, remove, or replace them at any time, and the bot will reload them on the next start.</p>
+
+        <p>What's included:</p>
+        <ul class="list-disc pl-6 space-y-4 mb-8">
+            <li><strong>Affinity + crush system</strong> three dials per person, one exclusive crush, pronoun-aware eligibility, and a master switch</li>
+            <li><strong>Real memory</strong> six sections per person (details, notes, likes, dislikes, projects, people) in plain markdown you can edit</li>
+            <li><strong>Free-model failover</strong> Gemini, OpenRouter, SambaNova and friends with per-model cooldowns and key rotation</li>
+            <li><strong>Skills folder</strong> drop markdown files in to add personality and knowledge. Keyword matched, so the prompt stays small</li>
+            <li><strong>Sticker + emoji reactions</strong> keyword matched, auto-discovers your server's custom emoji, no config needed</li>
+            <li><strong>Dashboard</strong> edit her persona, watch the affinity sliders move, read the last 300 log lines, all from a browser</li>
+        </ul>
+
+        <!-- Optional dashboard screenshot — /assets/chats/dashboard.jpg -->
+        <img src="./assets/dashyuyu.png" alt="Yuyu's management dashboard" class="w-full aspect-video object-cover rounded-2xl mb-8">
+
+        <h2 class="rt-body-title text-4xl font-bold mt-16 mb-6 tracking-tight">Go Poke Her</h2>
+        <p>The repository is available at <a href="https://github.com/RandomCatUser/Yuyu" class="underline decoration-2 underline-offset-4" target="_blank" rel="noopener">github.com/RandomCatUser/Yuyu</a>. The README has detailed instructions on how to set up the .env file, and the invite link. The bot asks only for the minimal permissions for a functioning conversation - no Admin or Manage Roles, because a chatbot that can destroy your server is a chatbot that has too much power.</p>
+        <p>If you create something with her, or if she roasts one of your friends particularly hard, let me know. The point of this exercise was to share this creation with the world.</p>
+
+        <footer class="mt-20 pt-10 border-t rt-foot text-sm">
+            <p>Yuyu was real the whole time. She just needed somewhere to live.</p>
+            <p class="mt-3 opacity-60">끝에 도달하셨습니다.</p>
+        </footer>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <div id="sc-player"></div>
+
+    <script src="../assets/js/common.js"></script>
+</body>
+</html>
